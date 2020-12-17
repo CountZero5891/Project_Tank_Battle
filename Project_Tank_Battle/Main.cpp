@@ -303,7 +303,7 @@ void exec()
 	int createObjectForMapTimer = 0;
 	bool showMissionText = true;
 	Font font;
-	font.loadFromFile("D:/Project_Tank_Battle/fonts/droid-sans.ttf");
+	font.loadFromFile("G:/Project_Tank_Battle/fonts/droid-sans.ttf");
 	Text text("", font, 20);
 	RenderWindow window(VideoMode(1366, 768), "Project_Tank_Battle");
 	window.setFramerateLimit(30);
@@ -315,10 +315,10 @@ void exec()
 	lvl.LoadFromFile("map02.tmx");
 	//////////////////////////////////////////////////////////////////////////////////////////
 	Image heroImage;
-	heroImage.loadFromFile("D:/Project_Tank_Battle/images/tanks.png");
+	heroImage.loadFromFile("G:/Project_Tank_Battle/images/tanks.png");
 
 	Image EnemyImage;
-	EnemyImage.loadFromFile("D:/Project_Tank_Battle/images/tanks.png");
+	EnemyImage.loadFromFile("G:/Project_Tank_Battle/images/tanks.png");
 
 	Object player = lvl.GetObject("Player");//объект игрока на нашей карте.задаем координаты игроку в начале при помощи него
 	Player p(heroImage, "Player", lvl, player.rect.left, player.rect.top, 75, 82);
@@ -330,7 +330,7 @@ void exec()
 	vector<Object> e = lvl.GetObjects("Enemy");//все объекты врага на tmx карте хранятся в этом векторе
 
 	Image BulletImage;
-	BulletImage.loadFromFile("D:/Project_Tank_Battle/images/bullet.png");
+	BulletImage.loadFromFile("G:/Project_Tank_Battle/images/bullet.png");
 	BulletImage.createMaskFromColor(Color(0, 0, 0));
 
 	for (int i = 0; i < e.size(); i++)//проходимся по элементам этого вектора(а именно по врагам)

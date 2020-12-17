@@ -50,10 +50,5 @@ G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(220,1): warning C4305: =: у
 G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(225,1): warning C4305: =: усечение из "double" в "float"
 G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(257,1): warning C4305: =: усечение из "double" в "float"
 G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(363,14): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
-  tinystr.cpp
-  tinyxml.cpp
-  tinyxmlerror.cpp
-  tinyxmlparser.cpp
-  Создание кода...
 G:\Project_Tank_Battle\Project_Tank_Battle\level.h(312): warning C4715: Level::GetObject: значение возвращается не при всех путях выполнения
   Project_Tank_Battle.vcxproj -> G:\Project_Tank_Battle\x64\Debug\Project_Tank_Battle.exe
