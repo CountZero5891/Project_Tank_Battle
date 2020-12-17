@@ -132,12 +132,12 @@ public:
 		{
 			state = up;
 			speed = 0.1;
-		} //вторая координата (У) отрицательна =>идём вверх (вспоминаем из предыдущих уроков почему именно вверх, а не вниз)
+		} 
 		if (Keyboard::isKeyPressed(Keyboard::Down))
 		{
 			state = down;
 			speed = 0.1;
-		} //вторая координата (У) положительна =>идём вниз (если не понятно почему именно вниз - смотрим предыдущие уроки)
+		} 
 	//getplayercoordinateforview(p.getplayercoordinateX(), p.getplayercoordinateY());
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
