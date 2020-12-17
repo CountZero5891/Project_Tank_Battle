@@ -1,0 +1,24 @@
+<!DOCTYPE SpriteDecomposer>
+<sprites image="tanks.png" transparentColor="">
+ <animation title="TankRide" delay="150">
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="94" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="184" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="274" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="364" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="454" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="544" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="634" y="87" h="76" row="1" col="1"/>
+ </animation>
+ <animation title="TankRide" delay="150">
+  <cut w="64" x="10" y="2" h="77" row="1" col="1"/>
+  <cut w="64" x="94" y="2" h="77" row="1" col="1"/>
+  <cut w="64" x="178" y="2" h="77" row="1" col="1"/>
+  <cut w="64" x="262" y="2" h="77" row="1" col="1"/>
+  <cut w="64" x="346" y="2" h="77" row="1" col="1"/>
+  <cut w="64" x="430" y="2" h="77" row="1" col="1"/>
+  <cut w="64" x="514" y="2" h="77" row="1" col="1"/>
+  <cut w="64" x="598" y="2" h="77" row="1" col="1"/>
+ </animation>
+</sprites>
