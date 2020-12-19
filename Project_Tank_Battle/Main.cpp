@@ -30,10 +30,11 @@ public:
 		sprite.setTexture(texture);
 		sprite.setOrigin(w / 2, h / 2);
 	}
-	FloatRect getRect()
-	{	//ф-ция получения прямоугольника. его коорд,размеры (шир,высот).
-		return FloatRect(x, y, w, h);//эта ф-ция нужна для проверки столкновений 
+	FloatRect getRect(){
+		//Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С… Рѕ РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРµ(РєРѕРѕСЂРґРёРЅР°С‚С‹ РїРѕР»РѕР¶РµРЅРёСЏ Рё РµРіРѕ СЂР°Р·РјРµСЂ)
+		return FloatRect(x, y, w, h);
 	}
+
 	virtual void update(float time) = 0;
 };
 
@@ -45,11 +46,12 @@ public:
 	bool isShoot, life;
 	Player(Image& image, String Name, Level& lev, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H)
 	{
-		health = 100, life = true, playerScore = 0; state = stay; obj = lev.GetAllObjects();//инициализируем.получаем все объекты для взаимодействия персонажа с картой
+		health = 100, life = true, playerScore = 0; 
+		state = stay; 
+		obj = lev.GetAllObjects();// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РІСЃРµ РѕР±СЉРµРєС‚С‹ РЅР° РєР°СЂС‚Рµ С‡С‚РѕР±С‹ РїСЂРѕРІРµСЂРёС‚СЊ РЅР° РїРµСЂРµСЃРµС‡РµРЅРёРµ РёРіСЂРѕРєР° СЃ РЅРёРјРё
 		if (name == "Player")
 		{
 			sprite.setTextureRect(IntRect(0, 85, w, h));
-			//sprite.setOrigin(35.4, 35.4);
 			sprite.setOrigin(w/2, h/2 );
 
 		}
@@ -57,13 +59,13 @@ public:
 
 	void update(float time)
 	{
-		control();
+		control();//С„СѓРЅРєС†РёСЏ СѓРїСЂР°РІР»РµРЅРёСЏ РїРµСЂСЃРѕРЅР°Р¶РµРј
 		switch (state)
 		{
-		case left: dx = -speed; dy = 0; sprite.setRotation(-90);  break;
-		case right: dx = speed; dy = 0; sprite.setRotation(90);  break;
-		case up: dx = 0; dy = -speed; sprite.setRotation(0);  break;
-		case down: dx = 0; dy = speed; sprite.setRotation(180); break;
+			case left: dx = -speed; dy = 0; sprite.setRotation(-90);  break;
+			case right: dx = speed; dy = 0; sprite.setRotation(90);  break;
+			case up: dx = 0; dy = -speed; sprite.setRotation(0);  break;
+			case down: dx = 0; dy = speed; sprite.setRotation(180); break;
 		}
 		x += dx * time;
 		checkCollisionWithMap(dx * time, 0);
@@ -87,10 +89,10 @@ public:
 
 	void checkCollisionWithMap(float Dx, float Dy)
 	{
-		for (int i = 0; i < obj.size(); i++)//проходимся по объектам
-			if (getRect().intersects(obj[i].rect))//проверяем пересечение игрока с объектом
+		for (int i = 0; i < obj.size(); i++)//РїСЂРѕС…РѕРґ РїРѕ С†РёРєР»Сѓ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ РёРіСЂРѕРєР° СЃРѕ СЃС‚РµРЅРѕР№
+			if (getRect().intersects(obj[i].rect))
 			{
-				if (obj[i].name == "solid")//если встретили препятствие
+				if (obj[i].name == "solid")
 				{
 					if (Dy > 0)
 					{
@@ -114,10 +116,11 @@ public:
 	}
 
 
-
+	//С„СѓРЅРєС†РёСЏ СѓРїСЂР°РІР»РµРЅРёСЏ РёРіСЂРѕРєРѕРј
 	void control()
 	{
 		int CurrentFrame = 0;
+		//
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
 			state = left;
@@ -127,7 +130,7 @@ public:
 		{
 			state = right;
 			speed = 0.1;
-		} //первая координата Х положительна =>идём вправо
+		} 
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
 			state = up;
@@ -138,7 +141,7 @@ public:
 			state = down;
 			speed = 0.1;
 		} 
-	//getplayercoordinateforview(p.getplayercoordinateX(), p.getplayercoordinateY());
+
 		if (Keyboard::isKeyPressed(Keyboard::Space))
 		{
 			isShoot = true;
@@ -153,47 +156,44 @@ public:
 	int health;
 	bool isShoot;
 	
+	Object plr;
+
 	Enemy(Image& image, String Name, Level& lvl, float X, float Y, int W, int H) :Entity(image, Name, X, Y, W, H) 
 	{
-		obj = lvl.GetObjects("solid");//инициализируем.получаем нужные объекты для взаимодействия врага с картой
+		
+		obj = lvl.GetObjects("solid");//РёРЅРёС†Р°Р»РёР·РёСЂСѓРµРј РѕР±СЉРµРєС‚С‹ СЃ РєР°СЂС‚С‹
+		
+
 		health = 100;
 		if (name == "Enemy") {
 			sprite.setTextureRect(IntRect(8, 1, w, h));
-
 		}
 
 	}
 	void checkCollisionWithMap(float Dx, float Dy)
 	{
-		for (int i = 0; i < obj.size(); i++)//проходимся по объектам
-			if (getRect().intersects(obj[i].rect))//проверяем пересечение игрока с объектом
+		for (int i = 0; i < obj.size(); i++)//РїСЂРѕС…РѕРґ РїРѕ С†РёРєР»Сѓ РґР»СЏ РїСЂРѕРІРµСЂРєРё СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ РІСЂР°РіР° СЃ РїСЂРµРїСЏС‚СЃС‚РІРёРµРј
+			if (getRect().intersects(obj[i].rect))
 			{
 				if (obj[i].name == "solid")
 				{
-					if (Dy > 0) { y = obj[i].rect.top - h;  dy = 0; dx = 0;}
-					if (Dy < 0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; dx = 0;}
-					if (Dx > 0) { x = obj[i].rect.left - w;  dx = 0; dy = 0;/*sprite.scale(-1, 1);*/ }
-					if (Dx < 0) { x = obj[i].rect.left + obj[i].rect.width; dx = 0; dy = 0;/*sprite.scale(-1, 1);*/ }
+					if (Dy > 0) { y = obj[i].rect.top - h;  dy = 0; }
+					if (Dy < 0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
+					if (Dx > 0) { x = obj[i].rect.left - w;  dx = 0; dy = 0; }
+					if (Dx < 0) { x = obj[i].rect.left + obj[i].rect.width; dx = 0; dy = 0; }
 
 				}
+				
 			}
 	}
 
+	
 
-	void checkCollisionWithPlayer(float Dx, float Dy)
-	{
-		for (int i = 0; i < obj.size(); i++)//проходимся по объектам
-			if (getRect().intersects(obj[i].rect))//проверяем пересечение игрока с объектом
-			{
-				if (obj[i].name == "Player")
-				{
-					cout << "There you are"<<endl;
-				}
-			}
-	}
+
 
 	void update(float time)
 	{
+		//С‚СѓС‚ СЂР°Р· РІ РґРІРµ СЃРµРєСѓРЅРґС‹ РјРµРЅСЏРµС‚СЃСЏ РЅР°РїСЂР°РІР»РµРЅРёРµ РїСЂРѕС‚РёРІРЅРёРєР°
 		if (name == "Enemy") {
 			moveTimer += time;
 
@@ -202,7 +202,7 @@ public:
 				direction = rand() % 4 + 1;
 				moveTimer = 0;
 			}
-			//cout << direction << endl;
+
 			switch (direction)
 			{
 			case 1:
@@ -228,11 +228,9 @@ public:
 			}
 			x += dx * time;
 			checkCollisionWithMap(dx, 0);
+			
 			y += dy * time;
 			checkCollisionWithMap(0, dy);
-
-			checkCollisionWithPlayer(dx, 0);
-
 
 			isShoot = true;
 			sprite.setPosition(x + w / 2, y + h / 2);
@@ -263,17 +261,17 @@ public:
 	{
 		switch (direction)
 		{
-			case 0:dx = -speed; dy = 0;
+		case 0:dx = -speed; dy = 0;
 			break;
-			case 1:dx = speed; dy = 0;
+		case 1:dx = speed; dy = 0;
 			break;
-			case 2:dx = 0; dy = -speed;
+		case 2:dx = 0; dy = -speed;
 			break;
-			case 3:dx = 0; dy = speed;
+		case 3:dx = 0; dy = speed;
 			break;
-			case 4:dx = 0; dy = -speed;
+		case 4:dx = 0; dy = -speed;
 			break;
-			case 5:dx = 0; dy = -speed;
+		case 5:dx = 0; dy = -speed;
 			break;
 		}
 
@@ -283,16 +281,16 @@ public:
 		if (x <= 0) x = 1;
 		if (y <= 0) y = 1;
 
-		for (int i = 0; i < obj.size(); i++) {//проход по объектам solid
-			if (getRect().intersects(obj[i].rect)) //если этот объект столкнулся с пулей,
+		for (int i = 0; i < obj.size(); i++) {
+			if (getRect().intersects(obj[i].rect)) // РµСЃР»Рё РїСѓР»СЏ РїРѕРїР°Р»Р° РІ СЃС‚РµРЅСѓ С‚Рѕ СѓР±РёСЂР°РµРј РµРµ
 			{
-				life = false;// то пуля умирает
+				life = false;
 			}
 		}
 
-		sprite.setPosition(x + w / 2, y + h / 2);//задается позицию пуле
-	}
+		sprite.setPosition(x + w / 2, y + h / 2);
 
+	}
 };
 
 
@@ -309,33 +307,33 @@ void exec()
 	window.setFramerateLimit(30);
 	view.reset(sf::FloatRect(0, 0, 1920, 1080));
 
-	//AnimationManager anim;
 
+	/////РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РѕР±СЉРµРєС‚РѕРІ РєР»Р°СЃСЃР° Рё РІР·СЏС‚РёРµ СЃРїСЂР°Р№С‚РѕРІ РґР»СЏ РёРіСЂРѕРєР° Рё РїСЂРѕС‚РёРІРЅРёРєРѕРІ
 	Level lvl;
 	lvl.LoadFromFile("map02.tmx");
-	//////////////////////////////////////////////////////////////////////////////////////////
+
 	Image heroImage;
 	heroImage.loadFromFile("G:/Project_Tank_Battle/images/tanks.png");
 
 	Image EnemyImage;
 	EnemyImage.loadFromFile("G:/Project_Tank_Battle/images/tanks.png");
 
-	Object player = lvl.GetObject("Player");//объект игрока на нашей карте.задаем координаты игроку в начале при помощи него
+	Object player = lvl.GetObject("Player");
 	Player p(heroImage, "Player", lvl, player.rect.left, player.rect.top, 75, 82);
 
-	list<Entity*>  entities;//создаю список, сюда буду кидать объекты.например врагов.
-	list<Entity*>::iterator it;//итератор чтобы проходить по эл-там списка
-	list<Entity*>::iterator it2;//итератор чтобы проходить по эл-там списка
+	list<Entity*>  entities;//СЃРѕР·РґР°СЋ СЃРїРёСЃРѕРє, СЃСЋРґР° Р±СѓРґСѓ РєРёРґР°С‚СЊ РѕР±СЉРµРєС‚С‹.РЅР°РїСЂРёРјРµСЂ РІСЂР°РіРѕРІ.
+	list<Entity*>::iterator it;//РёС‚РµСЂР°С‚РѕСЂ С‡С‚РѕР±С‹ РїСЂРѕС…РѕРґРёС‚СЊ РїРѕ СЌР»-С‚Р°Рј СЃРїРёСЃРєР°
+	list<Entity*>::iterator it2;//РёС‚РµСЂР°С‚РѕСЂ С‡С‚РѕР±С‹ РїСЂРѕС…РѕРґРёС‚СЊ РїРѕ СЌР»-С‚Р°Рј СЃРїРёСЃРєР°
 
-	vector<Object> e = lvl.GetObjects("Enemy");//все объекты врага на tmx карте хранятся в этом векторе
+	vector<Object> e = lvl.GetObjects("Enemy");//РІСЃРµ РѕР±СЉРµРєС‚С‹ РІСЂР°РіР° РЅР° tmx РєР°СЂС‚Рµ С…СЂР°РЅСЏС‚СЃСЏ РІ СЌС‚РѕРј РІРµРєС‚РѕСЂРµ
 
 	Image BulletImage;
 	BulletImage.loadFromFile("G:/Project_Tank_Battle/images/bullet.png");
 	BulletImage.createMaskFromColor(Color(0, 0, 0));
 
-	for (int i = 0; i < e.size(); i++)//проходимся по элементам этого вектора(а именно по врагам)
+	for (int i = 0; i < e.size(); i++)//РїСЂРѕС…РѕРґРёРјСЃСЏ РїРѕ СЌР»РµРјРµРЅС‚Р°Рј СЌС‚РѕРіРѕ РІРµРєС‚РѕСЂР°(Р° РёРјРµРЅРЅРѕ РїРѕ РІСЂР°РіР°Рј)
 	{
-		entities.push_back(new Enemy(EnemyImage, "Enemy", lvl, e[i].rect.left, e[i].rect.top, 71, 80));//и закидываем в список всех наших врагов с карты
+		entities.push_back(new Enemy(EnemyImage, "Enemy", lvl, e[i].rect.left, e[i].rect.top, 71, 80));
 	}
 
 	while (window.isOpen())
@@ -349,13 +347,12 @@ void exec()
 			{
 				p.isShoot = false;
 				entities.push_back(new Bullet(BulletImage, "Bullet", lvl, p.x, p.y, 16, 16, p.state));
-			}//если выстрелили, то появляется пуля. enum передаем как int 
-			if (event.type == Event::KeyPressed)//событие нажатия клавиши
+			}//РµСЃР»Рё РІС‹СЃС‚СЂРµР»РёР»Рё, С‚Рѕ РїРѕСЏРІР»СЏРµС‚СЃСЏ РїСѓР»СЏ.
+			if (event.type == Event::KeyPressed)
 			{
 				if ((event.key.code == Keyboard::Escape))
 				{
 					window.close();
-					
 				}
 			}
 		}
@@ -366,15 +363,20 @@ void exec()
 
 		p.update(time);
 
-		for (it = entities.begin(); it != entities.end();)//говорим что проходимся от начала до конца
+		for (it = entities.begin(); it != entities.end();)//РіРѕРІРѕСЂРёРј С‡С‚Рѕ РїСЂРѕС…РѕРґРёРјСЃСЏ РѕС‚ РЅР°С‡Р°Р»Р° РґРѕ РєРѕРЅС†Р°
 		{
-			Entity* b = *it;//для удобства, чтобы не писать (*it)->
-			b->update(time);//вызываем ф-цию update для всех объектов (по сути для тех, кто жив)
-			if (b->life == false) { it = entities.erase(it); delete b; }// если этот объект мертв, то удаляем его
-			else it++;//и идем курсором (итератором) к след объекту. так делаем со всеми объектами списка
+			Entity* b = *it;//РґР»СЏ СѓРґРѕР±СЃС‚РІР°, С‡С‚РѕР±С‹ РЅРµ РїРёСЃР°С‚СЊ (*it)->
+			b->update(time);//РІС‹Р·С‹РІР°РµРј С„-С†РёСЋ update РґР»СЏ РІСЃРµС… РѕР±СЉРµРєС‚РѕРІ (РїРѕ СЃСѓС‚Рё РґР»СЏ С‚РµС…, РєС‚Рѕ Р¶РёРІ)
+			if (b->life == false) // РµСЃР»Рё СЌС‚РѕС‚ РѕР±СЉРµРєС‚ РјРµСЂС‚РІ, С‚Рѕ СѓРґР°Р»СЏРµРј РµРіРѕ
+			{ 
+				it = entities.erase(it); 
+				delete b; 
+			}
+			else it++;
 		}
 
-
+		
+		///С‚СѓС‚ РёРґРµС‚ РїСЂРѕРІРµСЂРєР° СЃС‚РѕР»РєРЅРѕРІРµРЅРёСЏ РІСЂР°РіР° СЃ РёРіСЂРѕРєРѕРј
 
 		for (it = entities.begin(); it != entities.end(); it++)
 		{
@@ -384,17 +386,13 @@ void exec()
 				{
 					if ((*it)->dx > 0)
 					{
-						cout << "(*it)->x" << (*it)->x << "\n";
-						cout << "p.x" << p.x << "\n";
 						(*it)->x = p.x - (*it)->w;
 						(*it)->dx = 0;
-						cout << "new(*it)->x" << (*it)->x << "\n";
-						cout << "newp.x" << p.x << "\n\n";
 					}
 					if ((*it)->dx < 0)
 					{
 						(*it)->x = p.x + p.w;
-						(*it)->dx *= 0;
+						(*it)->dx = 0;
 					}
 					if (p.dx < 0)
 					{
@@ -404,7 +402,7 @@ void exec()
 					{
 						p.x = (*it)->x - p.w;
 					}
-
+					
 					if ((*it)->dy > 0)
 					{
 						(*it)->y = p.y - (*it)->h;
@@ -426,7 +424,7 @@ void exec()
 
 				}
 			}
-
+			///С‚СѓС‚ РёРґРµС‚ СѓР¶Рµ РїСЂРѕРІРµСЂРєР° РЅР° РєРѕРЅС‚Р°РєС‚ РІСЂР°РіР° СЃ РїСѓР»РµР№, РµСЃР»Рё РїСѓР»СЏ РєРѕСЃРЅСѓР»Р°СЃСЊ РІСЂР°РіР° Р·РґРѕСЂРѕРІСЊРµ РµРіРѕ СѓРјРµРЅСЊС‰С€Р°РµС‚СЃСЏ РЅР° 50 РµРґРёРЅРёС†
 			for (it2 = entities.begin(); it2 != entities.end(); it2++)
 			{
 				if ((*it)->name == "Enemy")
@@ -454,29 +452,21 @@ void exec()
 				}
 			}
 
-
-
-			for (it2 = entities.begin(); it2 != entities.end(); it2++) {
-				if ((*it)->getRect() != (*it2)->getRect())//при этом это должны быть разные прямоугольники
-					if (((*it)->getRect().intersects((*it2)->getRect())) && ((*it)->name == "Enemy") && ((*it2)->name == "Enemy"))//если столкнулись два объекта и они враги
-					{
-						(*it)->dx *= -1;//меняем направление движения врага
-
-					}
-			}
 		}
 
 		window.setView(view);
 		window.clear();
 		lvl.Draw(window);
-
+		//РћС‚СЂРёСЃРѕРІРєР° С‚РµРєСЃС‚Р°
 		ostringstream playerHealthString, gameTimeString;
 		playerHealthString << p.health;
 		text.setString("Armor: " + playerHealthString.str());
-		text.setPosition(view.getCenter().x - 500, view.getCenter().y - 600);
+		text.setPosition(view.getCenter().x - 500, view.getCenter().y + 500);
+		
+		//С‚СѓС‚ СѓР¶Рµ РёРґРµС‚ РѕС‚СЂРёСЃРѕРІРєР° РІСЂР°РіРѕРІ
 		for (it = entities.begin(); it != entities.end(); it++)
 		{
-			window.draw((*it)->sprite); //рисуем entities объекты (сейчас это только враги)
+			window.draw((*it)->sprite); 
 		}
 		window.draw(text);
 

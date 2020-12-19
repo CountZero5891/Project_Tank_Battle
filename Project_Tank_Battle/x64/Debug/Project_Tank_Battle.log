@@ -38,17 +38,17 @@ G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(35,26): warning C4244: ар�
           [
               T=float
           ]
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(53,27): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(53,22): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(124,1): warning C4305: =: усечение из "double" в "float"
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(129,1): warning C4305: =: усечение из "double" в "float"
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(134,1): warning C4305: =: усечение из "double" в "float"
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(139,1): warning C4305: =: усечение из "double" в "float"
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(55,27): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(55,22): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(127,1): warning C4305: =: усечение из "double" в "float"
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(132,1): warning C4305: =: усечение из "double" в "float"
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(137,1): warning C4305: =: усечение из "double" в "float"
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(142,1): warning C4305: =: усечение из "double" в "float"
 G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(209,1): warning C4305: =: усечение из "double" в "float"
 G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(214,1): warning C4305: =: усечение из "double" в "float"
 G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(220,1): warning C4305: =: усечение из "double" в "float"
 G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(225,1): warning C4305: =: усечение из "double" в "float"
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(257,1): warning C4305: =: усечение из "double" в "float"
-G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(363,14): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(255,1): warning C4305: =: усечение из "double" в "float"
+G:\Project_Tank_Battle\Project_Tank_Battle\Main.cpp(360,14): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
 G:\Project_Tank_Battle\Project_Tank_Battle\level.h(312): warning C4715: Level::GetObject: значение возвращается не при всех путях выполнения
   Project_Tank_Battle.vcxproj -> G:\Project_Tank_Battle\x64\Debug\Project_Tank_Battle.exe
