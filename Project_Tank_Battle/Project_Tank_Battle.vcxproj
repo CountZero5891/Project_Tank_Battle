@@ -149,10 +149,14 @@
     <ClCompile Include="tinyxml\tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="tinyxml\tinystr.h" />
     <ClInclude Include="tinyxml\tinyxml.h" />
-    <ClInclude Include="view.h" />
+    <ClInclude Include="view_cam.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

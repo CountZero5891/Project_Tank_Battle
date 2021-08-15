@@ -19,7 +19,7 @@ public:
 		if (name == "Player")
 		{
 			sprite.setTextureRect(IntRect(0, 85, w, h));
-			sprite.setOrigin(w / 2, h / 2);
+			sprite.setOrigin(w / 2.f, h / 2.f);
 		}
 	};
 	
@@ -85,22 +85,22 @@ public:
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
 			state = left;
-			speed = 0.1;
+			speed = 0.1f;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
 			state = right;
-			speed = 0.1;
+			speed = 0.1f;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
 			state = up;
-			speed = 0.1;
+			speed = 0.1f;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Down))
 		{
 			state = down;
-			speed = 0.1;
+			speed = 0.1f;
 		}
 
 		if (Keyboard::isKeyPressed(Keyboard::Space))

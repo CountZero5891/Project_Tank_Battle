@@ -66,23 +66,23 @@ public:
 			switch (direction)
 			{
 			case 1:
-				dx = 0.1;
+				dx = 0.1f;
 				dy = 0;
 				sprite.setRotation(90);
 				break;
 			case 2:
-				dx = -0.1;
+				dx = -0.1f;
 				dy = 0;
 				sprite.setRotation(-90);
 				break;
 			case 3:
 				dx = 0;
-				dy = 0.1;
+				dy = 0.1f;
 				sprite.setRotation(180);
 				break;
 			case 4:
 				dx = 0;
-				dy = -0.1;
+				dy = -0.1f;
 				sprite.setRotation(0);
 				break;
 			}
@@ -92,7 +92,7 @@ public:
 			y += dy * time;
 			checkCollisionWithMap(0, dy);
 
-			sprite.setPosition(x + w / 2, y + h / 2);
+			sprite.setPosition(x + w / 2.f, y + h / 2.f);
 			if (health <= 0)
 			{
 				life = false;

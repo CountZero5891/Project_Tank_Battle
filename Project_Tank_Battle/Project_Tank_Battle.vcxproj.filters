@@ -41,7 +41,19 @@
     <ClInclude Include="tinyxml\tinyxml.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="view.h">
+    <ClInclude Include="Entity.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="view_cam.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
