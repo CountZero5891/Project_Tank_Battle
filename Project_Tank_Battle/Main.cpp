@@ -13,12 +13,7 @@
 using namespace sf;
 using namespace std;
 
-void CollisionBetweenObject()
-{
-	//Заготовка для функции которая проверяет взаимодействия между объектами
-}
-
-void update_bullets(list<Bullet*> bullets, list<Bullet*>::iterator bullet_it, float &time)
+void update_bullets(list<Bullet*> &bullets, list<Bullet*>::iterator bullet_it, float &time)
 {
 	for (bullet_it = bullets.begin(); bullet_it != bullets.end();)
 	{
@@ -31,7 +26,7 @@ void update_bullets(list<Bullet*> bullets, list<Bullet*>::iterator bullet_it, fl
 	}
 }
 
-void update_enemies(list<Enemy*> enemies, list<Enemy*>::iterator enemy_it, float& time)
+void update_enemies(list<Enemy*> &enemies, list<Enemy*>::iterator enemy_it, float& time)
 {
 	for (enemy_it = enemies.begin(); enemy_it != enemies.end();)
 	{
@@ -44,9 +39,123 @@ void update_enemies(list<Enemy*> enemies, list<Enemy*>::iterator enemy_it, float
 	}
 }
 
+void another_check(list<Enemy*>  &enemies, list<Enemy*>::iterator enemy_it, list<Bullet*> &bullets, Image &bulletImage, Level &lvl, Player &player)
+{
+	for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
+	{
+		if ((*enemy_it)->isShoot == true)
+		{
+			(*enemy_it)->isShoot = false;
+
+			bullets.push_back(new Bullet(bulletImage, "EnemyBullet", lvl, (*enemy_it)->x, (*enemy_it)->y, 16, 16, (*enemy_it)->direction));
+
+		}
+
+		if ((*enemy_it)->getRect().intersects(player.getRect()))
+		{
+			if ((*enemy_it)->dx > 0)
+			{
+				(*enemy_it)->x = player.x - (*enemy_it)->w;
+				(*enemy_it)->dx = 0;
+
+			}
+			if ((*enemy_it)->dx < 0)
+			{
+				(*enemy_it)->x = player.x + player.w;
+				(*enemy_it)->dx = 0;
+			}
+			if (player.dx < 0)
+			{
+				player.x = (*enemy_it)->x + (*enemy_it)->w;
+			}
+			if (player.dx > 0)
+			{
+				player.x = (*enemy_it)->x - player.w;
+			}
+
+			if ((*enemy_it)->dy > 0)
+			{
+				(*enemy_it)->y = player.y - (*enemy_it)->h;
+				(*enemy_it)->dy = 0;
+			}
+			if ((*enemy_it)->dy < 0)
+			{
+				(*enemy_it)->y = player.y + player.h;
+				(*enemy_it)->dy = 0;
+			}
+			if (player.dy < 0)
+			{
+				player.y = (*enemy_it)->y + (*enemy_it)->h;
+			}
+			if (player.dy > 0)
+			{
+				player.y = (*enemy_it)->y - player.h;
+			}
+		}
+
+	}
+}
+
+void check_collision_bullet(list<Enemy*> &enemies, list<Enemy*>::iterator it, list<Bullet*> &bullets, Player &player)
+{
+	for (list<Enemy*>::iterator e_it = enemies.begin(); e_it != enemies.end(); e_it++)
+	{
+		if ((*e_it)->name == "Enemy")
+		{
+			Enemy* enemy = *e_it;
+			for (list<Bullet*>::iterator b_it = bullets.begin(); b_it != bullets.end(); b_it++)
+			{
+				Bullet* bullet = *b_it;
+				if (bullet->name == "Bullet")
+				{
+					if (bullet->life == true)
+					{
+						if (bullet->getRect().intersects(enemy->getRect()))
+						{
+							bullet->life = false;
+							enemy->health -= 50;
+							if (enemy->health == 0)
+							{
+								enemy->life = false;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	for (list<Bullet*>::iterator b_it2 = bullets.begin(); b_it2 != bullets.end(); b_it2++)
+	{
+		Bullet* bullet = *b_it2;
+		if (bullet->name == "EnemyBullet")
+		{
+			if (bullet->life == true)
+			{
+				if (bullet->getRect().intersects(player.getRect()))
+				{
+					bullet->life = false;
+					player.health -= 40;
+					if (player.health == 0)
+					{
+						player.life = false;
+					}
+				}
+			}
+		}
+	}
+}
 
 void exec_v2()
 {
+	//Fonts initialize
+	Font font;
+	font.loadFromFile("fonts/pcsenior.ttf");
+	Text text("", font, 20);
+	 text.setFillColor(Color::Green);
+	//	//	//	//	//	//	//	//	//	//	//
+
+
 	Clock clock;
 	float CurrentFrame = 0;
 	RenderWindow window(VideoMode(1366, 768), "Project_Tank_Battle");
@@ -113,127 +222,15 @@ void exec_v2()
 		player.update(time);
 
 
-		/*for (enemy_it = enemies.begin(); enemy_it != enemies.end();)
-		{
-			(*enemy_it)->update(time);
-			if ((*enemy_it)->life == false)
-			{
-				enemy_it = enemies.erase(enemy_it);
-			}
-			else enemy_it++;
-		}*/
-
-		/*for (bullet_it = bullets.begin(); bullet_it != bullets.end();)
-		{
-			(*bullet_it)->update(time);
-			if ((*bullet_it)->life == false)
-			{
-				bullet_it = bullets.erase(bullet_it);
-			}
-			else bullet_it++;
-		}*/
 		update_enemies(enemies, enemy_it, time);
 
 		update_bullets(bullets, bullet_it, time);
 
-		for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
-		{
-			if ((*enemy_it)->isShoot == true)
-			{
-				(*enemy_it)->isShoot = false;
+		another_check(enemies, enemy_it, bullets, bulletImage, lvl, player);
 
-				bullets.push_back(new Bullet(bulletImage, "EnemyBullet", lvl, (*enemy_it)->x, (*enemy_it)->y, 16, 16, (*enemy_it)->direction));
+		check_collision_bullet(enemies, enemy_it, bullets, player);
 
-			}
-
-			if ((*enemy_it)->getRect().intersects(player.getRect()))
-			{
-				if ((*enemy_it)->dx > 0)
-				{
-					(*enemy_it)->x = player.x - (*enemy_it)->w;
-					(*enemy_it)->dx = 0;
-
-				}
-				if ((*enemy_it)->dx < 0)
-				{
-					(*enemy_it)->x = player.x + player.w;
-					(*enemy_it)->dx = 0;
-				}
-				if (player.dx < 0)
-				{
-					player.x = (*enemy_it)->x + (*enemy_it)->w;
-				}
-				if (player.dx > 0)
-				{
-					player.x = (*enemy_it)->x - player.w;
-				}
-
-				if ((*enemy_it)->dy > 0)
-				{
-					(*enemy_it)->y = player.y - (*enemy_it)->h;
-					(*enemy_it)->dy = 0;
-				}
-				if ((*enemy_it)->dy < 0)
-				{
-					(*enemy_it)->y = player.y + player.h;
-					(*enemy_it)->dy = 0;
-				}
-				if (player.dy < 0)
-				{
-					player.y = (*enemy_it)->y + (*enemy_it)->h;
-				}
-				if (player.dy > 0)
-				{
-					player.y = (*enemy_it)->y - player.h;
-				}
-			}
-
-		}
-		for (list<Enemy*>::iterator e_it = enemies.begin(); e_it != enemies.end(); e_it++)
-		{
-			if ((*e_it)->name == "Enemy")
-			{
-				Enemy* enemy = *e_it;
-				for (list<Bullet*>::iterator b_it = bullets.begin(); b_it != bullets.end(); b_it++)
-				{
-					Bullet* bullet = *b_it;
-					if (bullet->name == "Bullet")
-					{
-						if (bullet->life == true)
-						{
-							if (bullet->getRect().intersects(enemy->getRect()))
-							{
-								bullet->life = false;
-								enemy->health -= 50;
-								if (enemy->health == 0)
-								{
-									enemy->life = false;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		/*for (list<Bullet*>::iterator b_it2 = entities.begin(); it2 != entities.end(); it2++)
-					{
-						Entity* bullet = *it2;
-						if (bullet->name == "EnemyBullet")
-						{
-							if (bullet->life == true)
-							{
-								if (bullet->getRect().intersects(p.getRect()))
-								{
-									bullet->life = false;
-									p.health -= 40;
-									if (p.health == 0)
-									{
-										p.life = false;
-									}
-								}
-							}
-						}
-					}*/
+		
 
 		window.setView(view);
 		window.clear();
@@ -250,11 +247,12 @@ void exec_v2()
 		}
 
 		window.draw(player.sprite);
+		text.setString("Health: ");
+		text.setPosition(view.getCenter().x, view.getCenter().y);
+		window.draw(text);
 		window.display();
 
 	}
-
-
 
 
 
@@ -263,8 +261,6 @@ void exec_v2()
 int main()
 {
 	exec_v2();
-	//exec();
-
 	return 0;
 }
 
