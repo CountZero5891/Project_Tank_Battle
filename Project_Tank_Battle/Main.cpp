@@ -247,8 +247,10 @@ void exec_v2()
 		}
 
 		window.draw(player.sprite);
-		text.setString("Health: ");
-		text.setPosition(view.getCenter().x, view.getCenter().y);
+		ostringstream playerHealthString;
+		playerHealthString << player.health;
+		text.setString("Health: " + playerHealthString.str());
+		text.setPosition(view.getCenter().x-700, view.getCenter().y-500);
 		window.draw(text);
 		window.display();
 
