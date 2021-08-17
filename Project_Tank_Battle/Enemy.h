@@ -14,7 +14,7 @@ public:
 	Enemy(Image& image, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(image, Name, X, Y, W, H, Dir) {
 		obj = lvl.GetObjects("solid");//иницализируем объекты с карты
 		//isShoot = true;
-		direction = Dir;
+		direction = rand()% 1+4;
 		health = 100;
 		if (name == "Enemy") {
 			sprite.setTextureRect(IntRect(8, 1, w, h));
@@ -38,11 +38,12 @@ public:
 
 
 	void update(float time) {
-		float timeShoot;
+		float timeShoot, timeMove;
 		//тут раз в две секунды меняется направление противника
 		if (name == "Enemy") {
 
 			timeShoot = rand() % 1400 + 1500;
+			timeMove = rand() % 2300 + 2500;
 			moveTimer += time;
 			shootTimer += time;
 			if (isShoot == false)
@@ -56,7 +57,7 @@ public:
 			}
 
 
-			if (moveTimer > 2500)
+			if (moveTimer >=timeMove )
 			{
 				direction = rand() % 4 + 1;
 				moveTimer = 0;
@@ -65,6 +66,11 @@ public:
 
 			switch (direction)
 			{
+			case 0:
+				dx = 0;
+				dy = 0;
+				sprite.setRotation(0);
+				break; 
 			case 1:
 				dx = 0.1f;
 				dy = 0;

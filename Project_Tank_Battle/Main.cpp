@@ -154,7 +154,7 @@ void exec_v2()
 	Text text("", font, 20);
 	 text.setFillColor(Color::Green);
 	//	//	//	//	//	//	//	//	//	//	//
-
+	 
 
 	Clock clock;
 	float CurrentFrame = 0;
@@ -185,9 +185,14 @@ void exec_v2()
 
 	vector<Object> enemiesObjects = lvl.GetObjects("Enemy");
 
+	int Dir = 0;
+	//Dir = rand()%
+
 	for (int i = 0; i < enemiesObjects.size(); i++)
 	{
-		enemies.push_back(new Enemy(enemyImage, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
+		//Dir = rand() % 1 + 4;
+		enemies.push_back(new Enemy(enemyImage, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 0));
+		//Dir = 0;
 	}
 
 	while (window.isOpen())
@@ -221,7 +226,6 @@ void exec_v2()
 
 		player.update(time);
 
-
 		update_enemies(enemies, enemy_it, time);
 
 		update_bullets(bullets, bullet_it, time);
@@ -247,11 +251,13 @@ void exec_v2()
 		}
 
 		window.draw(player.sprite);
+
 		ostringstream playerHealthString;
 		playerHealthString << player.health;
 		text.setString("Health: " + playerHealthString.str());
 		text.setPosition(view.getCenter().x-700, view.getCenter().y-500);
 		window.draw(text);
+		
 		window.display();
 
 	}
