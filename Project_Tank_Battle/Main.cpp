@@ -92,7 +92,6 @@ void another_check(list<Enemy*>  &enemies, list<Enemy*>::iterator enemy_it, list
 				player.y = (*enemy_it)->y - player.h;
 			}
 		}
-
 	}
 }
 
@@ -190,9 +189,7 @@ void exec_v2()
 
 	for (int i = 0; i < enemiesObjects.size(); i++)
 	{
-		//Dir = rand() % 1 + 4;
-		enemies.push_back(new Enemy(enemyImage, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 0));
-		//Dir = 0;
+		enemies.push_back(new Enemy(enemyImage, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
 	}
 
 	while (window.isOpen())

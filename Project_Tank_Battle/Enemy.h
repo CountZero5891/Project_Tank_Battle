@@ -11,10 +11,10 @@ public:
 	//bool isShoot;
 	float shootTimer;
 
-	Enemy(Image& image, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(image, Name, X, Y, W, H, Dir) {
+	Enemy(Image& image, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(image, Name, X, Y, W, H) {
 		obj = lvl.GetObjects("solid");//иницализируем объекты с карты
 		//isShoot = true;
-		direction = rand()% 1+4;
+		direction = Dir;
 		health = 100;
 		if (name == "Enemy") {
 			sprite.setTextureRect(IntRect(8, 1, w, h));
@@ -22,15 +22,34 @@ public:
 	};
 
 	void checkCollisionWithMap(float Dx, float Dy) {
+		cout << dy << endl;
+		cout << dx << endl;
 		for (int i = 0; i < obj.size(); i++)//проход по циклу дл€ проверки столкновени€ врага с преп€тствием
 			if (getRect().intersects(obj[i].rect))
 			{
 				if (obj[i].name == "solid")
 				{
-					if (Dy > 0) { y = obj[i].rect.top - h;  dy = 0; }
-					if (Dy < 0) { y = obj[i].rect.top + obj[i].rect.height;   dy = 0; }
-					if (Dx > 0) { x = obj[i].rect.left - w;  dx = 0; dy = 0; }
-					if (Dx < 0) { x = obj[i].rect.left + obj[i].rect.width; dx = 0; dy = 0; }
+					if (Dy > 0)	{ 
+						y = obj[i].rect.top - h;
+						direction = 4;
+						dy = -0.1; 
+					}
+					if (Dy < 0) { 
+						y = obj[i].rect.top + obj[i].rect.height;   
+						direction = 3;
+						dy = 0.1; 
+					}
+					if (Dx > 0) { 
+						x = obj[i].rect.left - w;  
+						direction = 2;
+						dx = -0.1; //dy = 0; 
+						
+					}
+					if (Dx < 0) { 
+						x = obj[i].rect.left + obj[i].rect.width;
+						direction = 1;
+						dx = 0.1; //dy = 0; 
+					}
 				}
 			}
 	}
@@ -43,7 +62,7 @@ public:
 		if (name == "Enemy") {
 
 			timeShoot = rand() % 1400 + 1500;
-			timeMove = rand() % 2300 + 2500;
+			timeMove = rand() % 2500 + 3000;
 			moveTimer += time;
 			shootTimer += time;
 			if (isShoot == false)
@@ -56,13 +75,11 @@ public:
 				}
 			}
 
-
 			if (moveTimer >=timeMove )
 			{
 				direction = rand() % 4 + 1;
 				moveTimer = 0;
 			}
-
 
 			switch (direction)
 			{
@@ -92,11 +109,12 @@ public:
 				sprite.setRotation(0);
 				break;
 			}
-			x += dx * time;
+			
 			checkCollisionWithMap(dx, 0);
-
-			y += dy * time;
+			x += dx * time;
+			
 			checkCollisionWithMap(0, dy);
+			y += dy * time;
 
 			sprite.setPosition(x + w / 2.f, y + h / 2.f);
 			if (health <= 0)

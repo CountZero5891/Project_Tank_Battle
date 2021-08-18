@@ -11,7 +11,7 @@ public:
 	enum { left, right, up, down, stay } state; // положение игрока
 	int playerScore, health;//очки здоровья и счет убитых
 	//bool isShoot;
-	Player(Image& image, String Name, Level& lev, float X, float Y, int W, int H, int Dir) :Entity(image, Name, X, Y, W, H, Dir) {
+	Player(Image& image, String Name, Level& lev, float X, float Y, int W, int H, int Dir) :Entity(image, Name, X, Y, W, H) {
 	
 		health = 100, life = true, playerScore = 0;
 		state = stay;
@@ -82,33 +82,36 @@ public:
 	}
 
 	void control() {
-		if (Keyboard::isKeyPressed(Keyboard::Left))
-		{
-			state = left;
-			speed = 0.1f;
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Right))
-		{
-			state = right;
-			speed = 0.1f;
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Up))
-		{
-			state = up;
-			speed = 0.1f;
-		}
-		if (Keyboard::isKeyPressed(Keyboard::Down))
-		{
-			state = down;
-			speed = 0.1f;
-		}
 
-		if (Keyboard::isKeyPressed(Keyboard::Space))
+		if (life == true)
 		{
-			isShoot = true;
+			if (Keyboard::isKeyPressed(Keyboard::Left))
+			{
+				state = left;
+				speed = 0.1f;
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Right))
+			{
+				state = right;
+				speed = 0.1f;
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Up))
+			{
+				state = up;
+				speed = 0.1f;
+			}
+			if (Keyboard::isKeyPressed(Keyboard::Down))
+			{
+				state = down;
+				speed = 0.1f;
+			}
+
+			if (Keyboard::isKeyPressed(Keyboard::Space))
+			{
+				isShoot = true;
+			}
 		}
 	}
-
 };
 
 

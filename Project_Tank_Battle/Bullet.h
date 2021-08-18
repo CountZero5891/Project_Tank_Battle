@@ -9,7 +9,7 @@ class Bullet :public Entity
 public:
 	int direction;
 
-	Bullet(Image& image, String Name, Level& lvl, float X, float Y, int W, int H, int dir) :Entity(image, Name, X, Y, W, H, dir) {
+	Bullet(Image& image, String Name, Level& lvl, float X, float Y, int W, int H, int dir) :Entity(image, Name, X, Y, W, H) {
 		obj = lvl.GetObjects("solid");
 		x = X;
 		y = Y;
@@ -22,23 +22,21 @@ public:
 	void update(float time) {
 		switch (direction)
 		{
-		case 0:
-			dx = -speed;
-			dy = 0;
-			break;
 		case 1:
 			dx = speed;
 			dy = 0;
 			break;
 		case 2:
-			dx = 0;
+			dx = -speed;
+			dy = 0;
+			break;
+		case 3:
+			dx = 0; 
+			dy = speed;
+			break;
+		case 4:
+			dx = 0; 
 			dy = -speed;
-			break;
-		case 3:dx = 0; dy = speed;
-			break;
-		case 4:dx = 0; dy = -speed;
-			break;
-		case 5:dx = 0; dy = -speed;
 			break;
 		}
 

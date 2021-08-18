@@ -20,17 +20,17 @@ public:
 	float dx, dy, x, y, speed, moveTimer;
 	int w, h, health;
 	bool life, isMove, isShoot;
-	int dirr;
+	//int dirr;
 
 	Texture texture;
 	Sprite sprite;
 	String name;
-	Entity(Image& image, String Name, float X, float Y, int W, int H, int Dir) {
+	Entity(Image& image, String Name, float X, float Y, int W, int H/*, int Dir*/) {
 		x = X; y = Y; w = W; h = H; name = Name; moveTimer = 0;
 		speed = 0; health = 100; dx = 0; dy = 0;
 		life = true;
 		isMove = false;
-		dirr = Dir;
+		//dirr = Dir;
 		//isShoot = true;
 		texture.loadFromImage(image);
 		sprite.setTexture(texture);
