@@ -27,10 +27,10 @@ public:
 		control();//функция управления персонажем
 		switch (state)
 		{
-		case left: dx = -speed; dy = 0; sprite.setRotation(-90);  break;
-		case right: dx = speed; dy = 0; sprite.setRotation(90);  break;
-		case up: dx = 0; dy = -speed; sprite.setRotation(0);  break;
-		case down: dx = 0; dy = speed; sprite.setRotation(180); break;
+		case left: dx = -speed; dy = 0; sprite.setRotation(-90);  break;//0
+		case right: dx = speed; dy = 0; sprite.setRotation(90);  break;//1
+		case up: dx = 0; dy = -speed; sprite.setRotation(0);  break;//2
+		case down: dx = 0; dy = speed; sprite.setRotation(180); break;//3
 		}
 		x += dx * time;
 		checkCollisionWithMap(dx * time, 0);
