@@ -187,10 +187,10 @@ void exec_v2()
 	int Dir = 0;
 	//Dir = rand()%
 
-	for (int i = 0; i < enemiesObjects.size(); i++)
+	/*for (int i = 0; i < enemiesObjects.size(); i++)
 	{
 		enemies.push_back(new Enemy(enemyImage, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
-	}
+	}*/
 
 	while (window.isOpen())
 	{
@@ -223,13 +223,13 @@ void exec_v2()
 
 		player.update(time);
 
-		update_enemies(enemies, enemy_it, time);
+		/*update_enemies(enemies, enemy_it, time);
 
 		update_bullets(bullets, bullet_it, time);
 
 		another_check(enemies, enemy_it, bullets, bulletImage, lvl, player);
 
-		check_collision_bullet(enemies, enemy_it, bullets, player);
+		check_collision_bullet(enemies, enemy_it, bullets, player);*/
 
 		
 
@@ -237,15 +237,15 @@ void exec_v2()
 		window.clear();
 		lvl.Draw(window);
 
-		for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
+		/*for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
 		{
 			window.draw((*enemy_it)->sprite);
-		}
+		}*/
 
-		for (bullet_it = bullets.begin(); bullet_it != bullets.end(); bullet_it++)
+		/*for (bullet_it = bullets.begin(); bullet_it != bullets.end(); bullet_it++)
 		{
 			window.draw((*bullet_it)->sprite);
-		}
+		}*/
 
 		window.draw(player.sprite);
 

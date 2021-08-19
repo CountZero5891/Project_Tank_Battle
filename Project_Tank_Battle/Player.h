@@ -25,6 +25,7 @@ public:
 	
 	void update(float time) {
 		control();//функция управления персонажем
+		Animation(time);
 		switch (state)
 		{
 		case left: dx = -speed; dy = 0; sprite.setRotation(-90);  break;
@@ -112,6 +113,19 @@ public:
 			}
 		}
 	}
+
+	void Animation(float time)
+	{
+		if (state == stay) anim.set("stay");
+		if (state == up) anim.set("up");
+		if (state == down) anim.set("down");
+		if (state == left) anim.set("left");
+		if (state == right) { anim.set("right"); 
+		anim.pause(); if (dy != 0) anim.play(); }
+
+		anim.tick(time);
+	}
+
 };
 
 

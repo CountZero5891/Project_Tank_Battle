@@ -22,8 +22,7 @@ public:
 	};
 
 	void checkCollisionWithMap(float Dx, float Dy) {
-		cout << dy << endl;
-		cout << dx << endl;
+
 		for (int i = 0; i < obj.size(); i++)//проход по циклу для проверки столкновения врага с препятствием
 			if (getRect().intersects(obj[i].rect))
 			{
