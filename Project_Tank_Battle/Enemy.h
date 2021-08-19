@@ -54,6 +54,8 @@ public:
 			}
 	}
 
+
+
 	void update(float time) {
 		float timeShoot, timeMove;
 		//тут раз в две секунды меняется направление противника
@@ -75,32 +77,36 @@ public:
 
 			if (moveTimer >=timeMove )
 			{
-				direction = rand() % 4 + 0;
+				direction = rand() % 4 + 1;
 				moveTimer = 0;
 			}
 
 			switch (direction)
 			{
-
 			case 0:
-				dx = -0.1f;
+				dx = 0;
 				dy = 0;
-				sprite.setRotation(-90);
-				break;
+				sprite.setRotation(0);
+				break; 
 			case 1:
 				dx = 0.1f;
 				dy = 0;
 				sprite.setRotation(90);
 				break;
 			case 2:
-				dx = 0;
-				dy = -0.1f;
-				sprite.setRotation(0);
+				dx = -0.1f;
+				dy = 0;
+				sprite.setRotation(-90);
 				break;
 			case 3:
 				dx = 0;
 				dy = 0.1f;
 				sprite.setRotation(180);
+				break;
+			case 4:
+				dx = 0;
+				dy = -0.1f;
+				sprite.setRotation(0);
 				break;
 			}
 			
