@@ -25,7 +25,7 @@ public:
 	
 	void update(float time) {
 		control();//функция управления персонажем
-		Animation(time);
+		//Animation(time);
 		switch (state)
 		{
 		case left: dx = -speed; dy = 0; sprite.setRotation(-90);  break;
