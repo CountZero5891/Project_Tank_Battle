@@ -205,6 +205,7 @@ void exec_v2()
 			{
 				player.isShoot = false;
 				bullets.push_back(new Bullet(bulletImage, "Bullet", lvl, player.x, player.y, 16, 16, player.state));
+				
 			}
 
 			if (event.type == Event::KeyPressed)
