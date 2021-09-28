@@ -8,13 +8,14 @@
 class Player: public Entity
 {
 public:
-	enum { left, right, up, down, stay } state; // положение игрока
+	enum { left, right, up, down, stay } STATE; // положение игрока
 	int playerScore, health;//очки здоровья и счет убитых
+	std::map<std::string, bool> key;
 	//bool isShoot;
-	Player(Image& image, String Name, Level& lev, float X, float Y, int W, int H, int Dir) :Entity(image, Name, X, Y, W, H) {
+	Player(Image& image, AnimationManager& A, String Name, Level& lev, float X, float Y, int W, int H, int Dir) :Entity(image,A, Name, X, Y, W, H) {
 	
 		health = 100, life = true, playerScore = 0;
-		state = stay;
+		STATE = stay;
 		obj = lev.GetAllObjects();// инициализируем все объекты на карте чтобы проверить на пересечение игрока с ними
 		if (name == "Player")
 		{
@@ -24,20 +25,23 @@ public:
 	};
 	
 	void update(float time) {
-		control();//функция управления персонажем
-		//Animation(time);
-		switch (state)
-		{
-		case left: dx = -speed; dy = 0; sprite.setRotation(-90);  break;//0
-		case right: dx = speed; dy = 0; sprite.setRotation(90);  break;//1
-		case up: dx = 0; dy = -speed; sprite.setRotation(0);  break;//2
-		case down: dx = 0; dy = speed; sprite.setRotation(180); break;//3
-		}
+		Keyboard();
+		Animation(time);
+		//control();//функция управления персонажем
+		//switch (STATE)
+		//{
+		//case left: dx = -speed; dy = 0; sprite.setRotation(-90); cout << h << endl; cout << w << endl;  break;//0
+		//case right: dx = speed; dy = 0; sprite.setRotation(90);  cout << h << endl; cout << w << endl; break;//1
+		//case up: dx = 0; dy = -speed; sprite.setRotation(0);  cout << h << endl; cout << w << endl; break;//2
+		//case down: dx = 0; dy = speed; sprite.setRotation(180); cout << h << endl; cout << w << endl; break;//3
+		//}
+		sf::Vector2f position = sprite.getPosition();
+		//std::cout << "Coordinates of simple sprite: " << position.x << " " << position.y << "\n";
 		x += dx * time;
 		checkCollisionWithMap(dx * time, 0);
 		y += dy * time;
 		checkCollisionWithMap(0, dy * time);
-		sprite.setPosition(x + w / 5, y + h / 2);
+		sprite.setPosition(x + w / 2, y + h / 2);
 		if (!isMove)
 		{
 			speed = 0;
@@ -60,9 +64,10 @@ public:
 			{
 				if (obj[i].name == "solid")
 				{
+					//cout << "Contact" << endl;
 					if (Dy > 0)
 					{
-						y = obj[i].rect.top - h;
+						y = (obj[i].rect.top) - h;
 						dy = 0;
 					}
 					if (Dy < 0) {
@@ -82,28 +87,117 @@ public:
 		}
 	}
 
+	void Keyboard()
+	{
+		if (key["L"])
+		{
+			/*dir = 1;
+			if (STATE != duck) */
+			dx = -0.1;
+			dy = 0;
+			if (STATE == stay)
+			{
+				STATE = left;
+			}
+		}
+
+		if (key["R"])
+		{
+			dx = 0.1;
+			dy = 0;
+			if (STATE == stay) 
+			{
+				STATE = right;
+			}
+		}
+
+		if (key["Up"])
+		{ 
+			dy = -0.1; 
+			dx = 0;
+			if (STATE == stay)
+			{
+				STATE = up;
+			}
+		}
+
+		if (key["Down"])
+		{
+			dy = 0.1;
+			dx = 0;
+			if (STATE == stay)
+			{
+				STATE = down;
+			}
+		}
+
+		//if (key["Space"])
+		//{
+		//	shoot = true;
+		//}
+
+		/////////////////////если клавиша отпущена///////////////////////////
+		if (!(key["L"] || key["R"]))
+		{
+			dx = 0;
+			/*cout << dx << endl;*/
+			//cout << "Key left un push, STATE: "<<STATE << endl;
+			if (STATE == left || STATE == right) STATE = stay;
+			//if (STATE == right) STATE = stay;
+		}
+
+		
+
+		if (!(key["Up"] || key["Down"]))
+		{
+			dy = 0;
+			if (STATE == up || STATE == down) STATE = stay;
+		}
+
+		
+		/*if (!key["Space"])
+		{
+			shoot = false;
+		}*/
+
+		key["R"] = key["L"] = key["Up"] = key["Down"] = key["Space"] = false;
+
+
+		if (Keyboard::isKeyPressed(Keyboard::Left))
+			key["L"] = true;
+		if (Keyboard::isKeyPressed(Keyboard::Right))
+			key["R"] = true;
+		if (Keyboard::isKeyPressed(Keyboard::Up))
+			key["Up"] = true;
+		if (Keyboard::isKeyPressed(Keyboard::Down))
+			key["Down"] = true;
+		if (Keyboard::isKeyPressed(Keyboard::Space))
+			key["Space"] = true;
+
+	}
+
 	void control() {
 
 		if (life == true)
 		{
 			if (Keyboard::isKeyPressed(Keyboard::Left))
 			{
-				state = left;
+				STATE = left;
 				speed = 0.1f;
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Right))
 			{
-				state = right;
+				STATE = right;
 				speed = 0.1f;
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Up))
 			{
-				state = up;
+				STATE = up;
 				speed = 0.1f;
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Down))
 			{
-				state = down;
+				STATE = down;
 				speed = 0.1f;
 			}
 
@@ -116,12 +210,51 @@ public:
 
 	void Animation(float time)
 	{
-		if (state == stay) anim.set("stay");
-		if (state == up) anim.set("up");
-		if (state == down) anim.set("down");
-		if (state == left) anim.set("left");
-		if (state == right) { anim.set("right"); 
-		anim.pause(); if (dy != 0) anim.play(); }
+		if (STATE == stay) anim.pause();
+		if (STATE == up)
+		{
+			sprite.setRotation(0);
+			anim.set("up");
+			anim.pause();
+			if (dy != 0)
+			{
+				anim.play();
+			}
+			//cout << w << endl; cout << h << endl;
+		}
+		if (STATE == down)
+		{
+			sprite.setRotation(180);
+			anim.set("down");
+			anim.pause();
+			if (dy != 0)
+			{
+				anim.play();
+			}
+			//cout << w << endl; cout << h << endl;
+		}
+		if (STATE == left) { 
+			sprite.setRotation(-90);
+			anim.set("left"); 
+			anim.pause(); 
+			cout << dx << endl;
+			if (dx != 0) 
+			{ 
+				anim.play(); 
+			} 
+			cout << w << endl; cout << h << endl;
+		}
+		if (STATE == right) 
+		{ 
+			sprite.setRotation(90);
+			anim.set("right");
+			anim.pause(); 
+			cout << dx << endl;
+			if (dx != 0) {
+				anim.play();
+			}
+			cout << w << endl; cout << h << endl;
+		}
 
 		anim.tick(time);
 	}

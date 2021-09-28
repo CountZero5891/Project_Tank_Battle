@@ -27,15 +27,23 @@ public:
 	Texture texture;
 	Sprite sprite;
 	String name;
-	Entity(Image& image, /*AnimationManager &A,*/ String Name, float X, float Y, int W, int H/*, int Dir*/) {
-		x = X; y = Y; w = W; h = H; name = Name; moveTimer = 0;
-		speed = 0; health = 100; dx = 0; dy = 0;
+	Entity(Image& image, AnimationManager &A, String Name, float X, float Y, int W, int H/*, int Dir*/) {
+		x = X; 
+		y = Y; 
+		w = W; 
+		h = H; 
+		name = Name; 
+		moveTimer = 0;
+		speed = 0; 
+		health = 100; 
+		dx = 0; 
+		dy = 0;
 		life = true;
 		isMove = false;
 		//dirr = Dir;
-		//isShoot = true;
+		isShoot = true;
 		texture.loadFromImage(image);
-		//anim = A;
+		anim = A;
 		sprite.setTexture(texture);
 		sprite.setOrigin(w / 2, h / 2);
 	}

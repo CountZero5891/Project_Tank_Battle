@@ -2,7 +2,7 @@
 #include <iostream> 
 
 using namespace sf;
-int asdf()
+int mainas()
 {
 	RenderWindow window(sf::VideoMode(640, 480), "Lesson 7. kychka-pc.ru");
 

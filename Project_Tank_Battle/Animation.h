@@ -13,7 +13,9 @@ public:
 	std::vector<IntRect> frames, frames_flip;
 	float currentFrame, speed;
 	bool loop, flip, isPlaying;   
+	Texture texture;
 	Sprite sprite;
+	//float
 
 	Animation()
 	{
@@ -22,6 +24,14 @@ public:
 		flip = false;
 		loop = true;
 	}
+
+	//Animation(Texture &texture)
+	//{
+	//	currentFrame = 0;
+	//	isPlaying = true;
+	//	//flip = false;
+	//	loop = true;
+	//}
 
 	void tick(float time)
 	{
@@ -58,18 +68,26 @@ public:
 		animList.clear();
 	}
 
-	void create(std::string name, Texture& texture, int x, int y, int w, int h, int count, float speed, int step = 0, bool Loop = true)
+	void create(std::string name, Texture& texture, int x, int y, int w, int h, int count, float speed, int step = 0, int angle = 0, bool Loop = true)
 	{
+		
 		Animation a;
 		a.speed = speed;
 		a.loop = Loop;
+		/*sprite.setTexture(texture);
+		sprite.setOrigin(w / 2, h / 2);*/
 		a.sprite.setTexture(texture);
-		a.sprite.setOrigin(0, h);
-
+		a.sprite.setTextureRect(IntRect(0, 85, w, h));
+		a.sprite.setOrigin(w / 2.f, h / 2.f);
+		a.sprite.setRotation(angle);
+		a.sprite.setPosition(x + w / 2, y + h / 2);
+		std::cout << angle << std::endl;
+		sf::Vector2f position = a.sprite.getPosition();
+		std::cout << "Coordinates of sprite: " <<  position.x << " " << position.y << "\n";
+		std::cout << "Coordinates of sprite: " << position.x << " " << position.y << "\n";
 		for (int i = 0; i < count; i++)
 		{
 			a.frames.push_back(IntRect(x + i * step, y, w, h));
-			a.frames_flip.push_back(IntRect(x + i * step + w, y, -w, h));
 		}
 		animList[name] = a;
 		currentAnim = name;
@@ -109,7 +127,7 @@ public:
 			}
 
 			anim.sprite.setOrigin(0, anim.frames[0].height);
-
+			//anim.sprite.setRotation(90);
 			animList[currentAnim] = anim;
 			animElement = animElement->NextSiblingElement("animation");
 		}

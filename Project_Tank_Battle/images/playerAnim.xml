@@ -1,5 +1,15 @@
 <!DOCTYPE SpriteDecomposer>
 <sprites image="tanks.png" transparentColor="">
+ <animation title="stay" delay="150">
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+  <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
+ </animation>
  <animation title="up" delay="150">
   <cut w="66" x="4" y="86" h="77" row="1" col="1"/>
   <cut w="66" x="94" y="86" h="77" row="1" col="1"/>
