@@ -8,7 +8,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Enemy.h"
-//#include "Bullet.h"
+#include "Bullet.h"
 
 using namespace sf;
 using namespace std;
@@ -39,12 +39,81 @@ void update_enemies(list<Entity*> &enemies, list<Entity*>::iterator enemy_it, fl
 	}
 }
 
-void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, float& time)
+void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, float& time, Player &player)
 {
 	for (entity_it = entities.begin(); entity_it != entities.end();)
 	{
-
+		(*entity_it)->update(time);
+		if ((*entity_it)->life == false)
+		{
+			entity_it = entities.erase(entity_it);
+		}
+		else entity_it++;
 	}
+
+	for (entity_it = entities.begin(); entity_it != entities.end(); entity_it++)
+	{
+		/*if ((*entity_it)->name == "Enemy")
+		{
+			if ((*enemy_it)->isShoot == true)
+			{
+				(*enemy_it)->isShoot = false;
+
+				entities.push_back(new Bullet(bulletImage, "EnemyBullet", lvl, (*enemy_it)->x, (*enemy_it)->y, 16, 16, (*enemy_it)->direction));
+
+			}
+		}*/
+		
+
+		if ((*entity_it)->getRect().intersects(player.getRect()))
+		{
+
+			if ((*entity_it)->name == "Enemy")
+			{
+				if ((*entity_it)->dx > 0)
+				{
+					(*entity_it)->x = player.x - (*entity_it)->w;
+					(*entity_it)->dx = 0;
+
+				}
+				if ((*entity_it)->dx < 0)
+				{
+					(*entity_it)->x = player.x + player.w;
+					(*entity_it)->dx = 0;
+				}
+				if (player.dx < 0)
+				{
+					player.x = (*entity_it)->x + (*entity_it)->w;
+				}
+				if (player.dx > 0)
+				{
+					player.x = (*entity_it)->x - player.w;
+				}
+
+				if ((*entity_it)->dy > 0)
+				{
+					(*entity_it)->y = player.y - (*entity_it)->h;
+					(*entity_it)->dy = 0;
+				}
+				if ((*entity_it)->dy < 0)
+				{
+					(*entity_it)->y = player.y + player.h;
+					(*entity_it)->dy = 0;
+				}
+				if (player.dy < 0)
+				{
+					player.y = (*entity_it)->y + (*entity_it)->h;
+				}
+				if (player.dy > 0)
+				{
+					player.y = (*entity_it)->y - player.h;
+				}
+			}
+
+			
+		}
+	}
+
 }
 
 //
@@ -103,7 +172,7 @@ void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, f
 //		}
 //	}
 //}
-//
+
 //void check_collision_bullet(list<Enemy*> &enemies, list<Enemy*>::iterator it, list<Bullet*> &bullets, Player &player)
 //{
 //	for (list<Enemy*>::iterator e_it = enemies.begin(); e_it != enemies.end(); e_it++)
@@ -153,6 +222,139 @@ void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, f
 //		}
 //	}
 //}
+
+
+//Test animate in class
+
+
+void exec_v3()
+{
+	//Fonts initialize
+	Font font;
+	font.loadFromFile("fonts/pcsenior.ttf");
+	Text text("", font, 20);
+	text.setFillColor(Color::Green);
+	//	//	//	//	//	//	//	//	//	//	//
+
+
+	Clock clock;
+	float CurrentFrame = 0;
+	RenderWindow window(VideoMode(1366, 768), "Project_Tank_Battle");
+	window.setFramerateLimit(30);
+	view.reset(FloatRect(50, 50, 1920, 1080));
+	Level lvl;
+	lvl.LoadFromFile("map02.tmx");
+	
+	Object playerObject = lvl.GetObject("Player");
+
+	Image heroImage;
+	heroImage.loadFromFile("images/tanks.png");
+
+	Image enemyImage;
+	enemyImage.loadFromFile("images/tanks.png");
+
+	//Initializing player//
+	Texture player_texture;
+	player_texture.loadFromFile("images/tanks.png");
+	AnimationManager playerAnim;
+	playerAnim.create("up", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 0);
+	playerAnim.create("down", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 180);
+	playerAnim.create("left", player_texture, 0, 85, 75, 82, 8, 0.005, 90, -90);
+	playerAnim.create("right", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 90);
+	Player player(heroImage, playerAnim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
+	////////////////////////////////////////////////////////////////////////////
+	
+
+	//Initialize enemies//
+	Texture enemy_texture;
+	enemy_texture.loadFromFile("images/tanks.png");
+	AnimationManager enemyAnim;
+	enemyAnim.create("enemy_up", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 0);
+	enemyAnim.create("enemy_down", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 180);
+	enemyAnim.create("enemy_left", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, -90);
+	enemyAnim.create("enemy_right", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 90);
+	vector<Object> enemiesObjects = lvl.GetObjects("Enemy");
+	list<Entity*> entities;
+	list<Entity*>::iterator enityy_it;
+	list<Entity*>::iterator entity_it2;
+	for (int i = 0; i < enemiesObjects.size(); i++)
+	{
+		entities.push_back(new Enemy(enemyImage, enemyAnim, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
+	}
+
+	/////////////////////////////
+
+	
+
+	while (window.isOpen())
+	{
+		Event event;
+
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+				window.close();
+
+			if (player.isShoot == true)
+			{
+				player.isShoot = false;
+
+			}
+
+			if (event.type == Event::KeyPressed)
+			{
+				if ((event.key.code == Keyboard::Escape))
+				{
+					window.close();
+				}
+			}
+		}
+
+		float time = clock.getElapsedTime().asMicroseconds();
+		clock.restart();
+
+		time = time / 800;
+
+		player.update(time);
+		entity_update(entities, enityy_it, time, player);
+
+
+		window.setView(view);
+		window.clear();
+		lvl.Draw(window);
+
+
+		//window.draw(player.sprite);
+		player.draw(window);
+		for (enityy_it = entities.begin(); enityy_it != entities.end(); enityy_it++)
+		{
+			(*enityy_it)->draw(window);
+		}
+		/*for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
+		{
+			window.draw((*enemy_it)->sprite);
+		}*/
+		ostringstream playerHealthString, playerXString, playerYString;
+		playerHealthString << player.health;
+		playerYString << player.y;
+		playerXString << player.x;
+
+		text.setString("Health: " + playerHealthString.str() + " X: " + playerXString.str() + " Y: " + playerYString.str());
+
+
+		text.setPosition(view.getCenter().x - 700, view.getCenter().y - 500);
+		window.draw(text);
+
+		window.display();
+	}
+}
+
+int main()
+{
+	exec_v3();
+	return 0;
+}
+
 /*
 void exec_v2()
 {
@@ -162,7 +364,7 @@ void exec_v2()
 	Text text("", font, 20);
 	 text.setFillColor(Color::Green);
 	//	//	//	//	//	//	//	//	//	//	//
-	 
+
 
 	Clock clock;
 	float CurrentFrame = 0;
@@ -214,7 +416,7 @@ void exec_v2()
 			{
 				player.isShoot = false;
 				//bullets.push_back(new Bullet(bulletImage, "Bullet", lvl, player.x, player.y, 16, 16, player.state));
-				
+
 			}
 
 			if (event.type == Event::KeyPressed)
@@ -241,7 +443,7 @@ void exec_v2()
 
 		check_collision_bullet(enemies, enemy_it, bullets, player);
 
-		
+
 
 		window.setView(view);
 		window.clear();
@@ -264,142 +466,11 @@ void exec_v2()
 		text.setString("Health: " + playerHealthString.str());
 		text.setPosition(view.getCenter().x-700, view.getCenter().y-500);
 		window.draw(text);
-		
-		window.display();
-
-	}
-
-
-
-}
-*/
-//Test animate in class
-
-
-void exec_v3()
-{
-	//Fonts initialize
-	Font font;
-	font.loadFromFile("fonts/pcsenior.ttf");
-	Text text("", font, 20);
-	text.setFillColor(Color::Green);
-	//	//	//	//	//	//	//	//	//	//	//
-
-
-	Clock clock;
-	float CurrentFrame = 0;
-	RenderWindow window(VideoMode(1366, 768), "Project_Tank_Battle");
-	window.setFramerateLimit(30);
-	view.reset(FloatRect(50, 50, 1920, 1080));
-	Level lvl;
-	lvl.LoadFromFile("map02.tmx");
-	
-	Object playerObject = lvl.GetObject("Player");
-
-	Image heroImage;
-	heroImage.loadFromFile("images/tanks.png");
-
-	Image enemyImage;
-	enemyImage.loadFromFile("images/tanks.png");
-
-	//Initializing player//
-	Texture player_texture;
-	player_texture.loadFromFile("images/tanks.png");
-	AnimationManager playerAnim;
-	playerAnim.create("up", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 0);
-	playerAnim.create("down", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 180);
-	playerAnim.create("left", player_texture, 0, 85, 75, 82, 8, 0.005, 90, -90);
-	playerAnim.create("right", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 90);
-	Player player(heroImage, playerAnim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
-	////////////////////////////////////////////////////////////////////////////
-	
-
-	//Initialize enemies//
-	Texture enemy_texture;
-	enemy_texture.loadFromFile("images/tanks.png");
-	AnimationManager enemyAnim;
-	enemyAnim.create("enemy_up", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 0);
-	enemyAnim.create("enemy_down", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 180);
-	enemyAnim.create("enemy_left", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, -90);
-	enemyAnim.create("enemy_right", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 90);
-	vector<Object> enemiesObjects = lvl.GetObjects("Enemy");
-	list<Entity*> enemies;
-	list<Entity*>::iterator enemy_it;
-	for (int i = 0; i < enemiesObjects.size(); i++)
-	{
-		enemies.push_back(new Enemy(enemyImage, enemyAnim, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
-	}
-
-	/////////////////////////////
-
-	
-
-	while (window.isOpen())
-	{
-		Event event;
-
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-				window.close();
-
-			if (player.isShoot == true)
-			{
-				player.isShoot = false;
-
-			}
-
-			if (event.type == Event::KeyPressed)
-			{
-				if ((event.key.code == Keyboard::Escape))
-				{
-					window.close();
-				}
-			}
-		}
-
-		float time = clock.getElapsedTime().asMicroseconds();
-		clock.restart();
-
-		time = time / 800;
-
-		player.update(time);
-		update_enemies(enemies, enemy_it, time);
-
-
-		window.setView(view);
-		window.clear();
-		lvl.Draw(window);
-
-
-		//window.draw(player.sprite);
-		player.draw(window);
-		for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
-		{
-			(*enemy_it)->draw(window);
-		}
-		/*for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
-		{
-			window.draw((*enemy_it)->sprite);
-		}*/
-		ostringstream playerHealthString, playerXString, playerYString;
-		playerHealthString << player.health;
-		playerYString << player.y;
-		playerXString << player.x;
-
-		text.setString("Health: " + playerHealthString.str() + " X: " + playerXString.str() + " Y: " + playerYString.str());
-
-
-		text.setPosition(view.getCenter().x - 700, view.getCenter().y - 500);
-		window.draw(text);
 
 		window.display();
+
 	}
-}
 
-int main()
-{
-	exec_v3();
-	return 0;
-}
 
+
+}*/
