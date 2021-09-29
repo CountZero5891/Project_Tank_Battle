@@ -70,7 +70,6 @@ public:
 
 	void create(std::string name, Texture& texture, int x, int y, int w, int h, int count, float speed, int step = 0, int angle = 0, bool Loop = true)
 	{
-		
 		Animation a;
 		a.speed = speed;
 		a.loop = Loop;
@@ -80,7 +79,7 @@ public:
 		a.sprite.setTextureRect(IntRect(0, 85, w, h));
 		a.sprite.setOrigin(w / 2.f, h / 2.f);
 		a.sprite.setRotation(angle);
-		a.sprite.setPosition(x + w / 2, y + h / 2);
+		//a.sprite.setPosition(350, 150);
 		std::cout << angle << std::endl;
 		sf::Vector2f position = a.sprite.getPosition();
 		std::cout << "Coordinates of sprite: " <<  position.x << " " << position.y << "\n";

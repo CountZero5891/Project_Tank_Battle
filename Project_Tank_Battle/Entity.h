@@ -42,15 +42,15 @@ public:
 		isMove = false;
 		//dirr = Dir;
 		isShoot = true;
-		texture.loadFromImage(image);
+		//texture.loadFromImage(image);
 		anim = A;
-		sprite.setTexture(texture);
-		sprite.setOrigin(w / 2, h / 2);
+		/*sprite.setTexture(texture);
+		sprite.setOrigin(w / 2, h / 2);*/
 	}
 	
 	void draw(RenderWindow& window)
 	{
-		anim.draw(window, x, y + h);
+		anim.draw(window, x + w / 2, y + h / 2);
 	}
 
 	FloatRect getRect() {

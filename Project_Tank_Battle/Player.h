@@ -19,6 +19,8 @@ public:
 		obj = lev.GetAllObjects();// инициализируем все объекты на карте чтобы проверить на пересечение игрока с ними
 		if (name == "Player")
 		{
+			RectangleShape rectangle(Vector2f(w, h));
+			rectangle.setPosition(x + w / 2, y + h / 2);
 			sprite.setTextureRect(IntRect(0, 85, w, h));
 			sprite.setOrigin(w / 2.f, h / 2.f);
 		}
@@ -41,7 +43,7 @@ public:
 		checkCollisionWithMap(dx * time, 0);
 		y += dy * time;
 		checkCollisionWithMap(0, dy * time);
-		sprite.setPosition(x + w / 2, y + h / 2);
+		//sprite.setPosition(x + w / 2, y + h / 2);
 		if (!isMove)
 		{
 			speed = 0;

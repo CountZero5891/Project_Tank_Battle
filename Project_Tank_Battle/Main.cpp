@@ -7,7 +7,7 @@
 #include <list>
 #include "Entity.h"
 #include "Player.h"
-//#include "Enemy.h"
+#include "Enemy.h"
 //#include "Bullet.h"
 
 using namespace sf;
@@ -26,18 +26,18 @@ using namespace std;
 //	}
 //}
 //
-//void update_enemies(list<Enemy*> &enemies, list<Enemy*>::iterator enemy_it, float& time)
-//{
-//	for (enemy_it = enemies.begin(); enemy_it != enemies.end();)
-//	{
-//		(*enemy_it)->update(time);
-//		if ((*enemy_it)->life == false)
-//		{
-//			enemy_it = enemies.erase(enemy_it);
-//		}
-//		else enemy_it++;
-//	}
-//}
+void update_enemies(list<Enemy*> &enemies, list<Enemy*>::iterator enemy_it, float& time)
+{
+	for (enemy_it = enemies.begin(); enemy_it != enemies.end();)
+	{
+		(*enemy_it)->update(time);
+		if ((*enemy_it)->life == false)
+		{
+			enemy_it = enemies.erase(enemy_it);
+		}
+		else enemy_it++;
+	}
+}
 //
 //void another_check(list<Enemy*>  &enemies, list<Enemy*>::iterator enemy_it, list<Bullet*> &bullets, Image &bulletImage, Level &lvl, Player &player)
 //{
@@ -288,20 +288,37 @@ void exec_v3()
 	Image heroImage;
 	heroImage.loadFromFile("images/tanks.png");
 
+	Image enemyImage;
+	enemyImage.loadFromFile("images/tanks.png");
+
 	Texture player_texture;
 	player_texture.loadFromFile("images/tanks.png");
-	AnimationManager anim;
-	anim.create("up", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 0);
-	anim.create("down", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 180);
-	anim.create("left", player_texture, 0, 85, 75, 82, 8, 0.005, 90, -90);
-	anim.create("right", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 90);
+	AnimationManager playerAnim;
+	playerAnim.create("up", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 0);
+	playerAnim.create("down", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 180);
+	playerAnim.create("left", player_texture, 0, 85, 75, 82, 8, 0.005, 90, -90);
+	playerAnim.create("right", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 90);
 	//anim.loadFromXML("images/playerAnim.xml", player_texture);
 	//Player player(anim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
-	Player player(heroImage, anim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
+	Player player(heroImage, playerAnim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
 
+	Texture enemy_texture;
+	enemy_texture.loadFromFile("images/tanks.png");
+	AnimationManager enemyAnim;
+	enemyAnim.create("enemy_up", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 0);
+	enemyAnim.create("enemy_down", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 180);
+	enemyAnim.create("enemy_left", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, -90);
+	enemyAnim.create("enemy_right", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 90);
 	
 
-	//vector<Object> enemiesObjects = lvl.GetObjects("Enemy");
+	vector<Object> enemiesObjects = lvl.GetObjects("Enemy");
+	list<Enemy*> enemies;
+	list<Enemy*>::iterator enemy_it;
+
+	for (int i = 0; i < enemiesObjects.size(); i++)
+	{
+		enemies.push_back(new Enemy(enemyImage, enemyAnim, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
+	}
 
 	int Dir = 0;
 	
@@ -336,7 +353,7 @@ void exec_v3()
 		time = time / 800;
 
 		player.update(time);
-
+		update_enemies(enemies, enemy_it, time);
 
 
 		window.setView(view);
@@ -344,8 +361,16 @@ void exec_v3()
 		lvl.Draw(window);
 
 
-		window.draw(player.sprite);
+		//window.draw(player.sprite);
 		player.draw(window);
+		for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
+		{
+			(*enemy_it)->draw(window);
+		}
+		/*for (enemy_it = enemies.begin(); enemy_it != enemies.end(); enemy_it++)
+		{
+			window.draw((*enemy_it)->sprite);
+		}*/
 		ostringstream playerHealthString, playerXString, playerYString;
 		playerHealthString << player.health;
 		playerYString << player.y;

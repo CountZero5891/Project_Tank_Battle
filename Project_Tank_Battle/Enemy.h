@@ -11,14 +11,14 @@ public:
 	//bool isShoot;
 	float shootTimer;
 
-	Enemy(Image& image, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(image, Name, X, Y, W, H) {
+	Enemy(Image& image, AnimationManager &A, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(image, A, Name, X, Y, W, H) {
 		obj = lvl.GetObjects("solid");//иницализируем объекты с карты
 		//isShoot = true;
 		direction = Dir;
 		health = 100;
-		if (name == "Enemy") {
+		/*if (name == "Enemy") {
 			sprite.setTextureRect(IntRect(8, 1, w, h));
-		}
+		}*/
 	};
 
 	void checkCollisionWithMap(float Dx, float Dy) {
@@ -57,7 +57,7 @@ public:
 		float timeShoot, timeMove;
 		//тут раз в две секунды меняется направление противника
 		if (name == "Enemy") {
-
+			Animation(time);
 			timeShoot = rand() % 1400 + 1500;
 			timeMove = rand() % 2500 + 3000;
 			moveTimer += time;
@@ -84,21 +84,25 @@ public:
 			case 0:
 				dx = -0.1f;
 				dy = 0;
+				//anim.set("enemy_left");
 				sprite.setRotation(-90);
 				break;
 			case 1:
 				dx = 0.1f;
 				dy = 0;
+				//anim.set("enemy_right");
 				sprite.setRotation(90);
 				break;
 			case 2:
 				dx = 0;
 				dy = -0.1f;
+				//anim.set("enemy_up");
 				sprite.setRotation(0);
 				break;
 			case 3:
 				dx = 0;
 				dy = 0.1f;
+				//anim.set("enemy_down");
 				sprite.setRotation(180);
 				break;
 			}
@@ -117,6 +121,38 @@ public:
 		}
 	}
 	
+	void Animation(float time)
+	{
+		//if (STATE == stay) anim.pause();
+		if (direction == 2)
+		{
+			//sprite.setRotation(0);
+			anim.set("enemy_up");
+			/*anim.pause();
+			if (dy != 0)
+			{
+				anim.play();
+			}*/
+			//cout << w << endl; cout << h << endl;
+		}
+		if (direction == 3)
+		{
+			anim.set("enemy_down");
+			
+			//cout << w << endl; cout << h << endl;
+		}
+		if (direction == 0) {
+			anim.set("enemy_left");
+			
+		}
+		if (direction == 1)
+		{
+			anim.set("enemy_right");
+			
+		}
+
+		anim.tick(time);
+	}
 
 };
 #endif // !ENEMY_H
