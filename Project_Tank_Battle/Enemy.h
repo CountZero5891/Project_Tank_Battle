@@ -14,7 +14,7 @@ public:
 	Enemy(Image& image, AnimationManager &A, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(image, A, Name, X, Y, W, H) {
 		obj = lvl.GetObjects("solid");//иницализируем объекты с карты
 		//isShoot = true;
-		direction = Dir;
+		direction = rand() % 4 + 0;
 		health = 100;
 		/*if (name == "Enemy") {
 			sprite.setTextureRect(IntRect(8, 1, w, h));
@@ -85,25 +85,25 @@ public:
 				dx = -0.1f;
 				dy = 0;
 				//anim.set("enemy_left");
-				sprite.setRotation(-90);
+				//sprite.setRotation(-90);
 				break;
 			case 1:
 				dx = 0.1f;
 				dy = 0;
 				//anim.set("enemy_right");
-				sprite.setRotation(90);
+				//sprite.setRotation(90);
 				break;
 			case 2:
 				dx = 0;
 				dy = -0.1f;
 				//anim.set("enemy_up");
-				sprite.setRotation(0);
+				//sprite.setRotation(0);
 				break;
 			case 3:
 				dx = 0;
 				dy = 0.1f;
 				//anim.set("enemy_down");
-				sprite.setRotation(180);
+				//sprite.setRotation(180);
 				break;
 			}
 			
