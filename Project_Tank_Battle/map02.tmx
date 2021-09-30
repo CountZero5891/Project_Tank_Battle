@@ -1358,18 +1358,15 @@
   </data>
  </layer>
  <objectgroup id="2" name="collisions">
-  <object id="1" name="Player" x="736.364" y="394.212" width="75" height="82"/>
+  <object id="1" name="Player" x="757.683" y="394.212" width="75" height="82"/>
   <object id="6" name="solid" x="407" y="540" width="297" height="35"/>
   <object id="9" name="solid" x="727.333" y="252" width="335" height="34"/>
-  <object id="11" name="Enemy" x="1281.21" y="537.485" width="75" height="82"/>
-  <object id="22" name="Enemy" x="898.864" y="598.394" width="75" height="82"/>
-  <object id="23" name="Enemy" x="380.682" y="377.182" width="75" height="82"/>
-  <object id="24" name="Enemy" x="989.773" y="71.1212" width="75" height="82"/>
-  <object id="25" name="Enemy" x="207.955" y="165.061" width="75" height="82"/>
-  <object id="26" name="Enemy" x="895.833" y="328.697" width="75" height="82"/>
+  <object id="22" name="Enemy" x="1005.46" y="101.658" width="75" height="82"/>
+  <object id="23" name="Enemy" x="254.899" y="191.706" width="75" height="82"/>
+  <object id="24" name="Enemy" x="1281.84" y="706.431" width="75" height="82"/>
   <object id="30" name="solid" x="1211" y="118" width="43" height="319"/>
   <object id="31" name="Enemy" x="1406.83" y="201.333" width="75" height="82"/>
-  <object id="32" name="Enemy" x="561.5" y="72" width="75" height="82"/>
+  <object id="32" name="Enemy" x="838.649" y="656.144" width="75" height="82"/>
   <object id="33" name="Enemy" x="114.833" y="512" width="75" height="82"/>
   <object id="34" name="solid" x="-4.5" y="-7.5" width="43" height="877"/>
   <object id="35" name="solid" x="1560.5" y="-2.5" width="43" height="877"/>
