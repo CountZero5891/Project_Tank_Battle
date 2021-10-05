@@ -27,7 +27,7 @@ public:
 	Texture texture;
 	Sprite sprite;
 	String name;
-	Entity(Image& image, AnimationManager &A, String Name, float X, float Y, int W, int H/*, int Dir*/) {
+	Entity(/*Image& image,*/ AnimationManager &A, String Name, float X, float Y, int W, int H/*, int Dir*/) {
 		x = X; 
 		y = Y; 
 		w = W; 

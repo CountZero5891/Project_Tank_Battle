@@ -11,7 +11,7 @@ public:
 	//bool isShoot;
 	float shootTimer;
 
-	Enemy(Image& image, AnimationManager &A, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(image, A, Name, X, Y, W, H) {
+	Enemy(/*Image& image,*/ AnimationManager &A, String Name, Level& lvl, float X, float Y, int W, int H, int Dir) :Entity(/*image, */A, Name, X, Y, W, H) {
 		obj = lvl.GetObjects("solid");//иницализируем объекты с карты
 		//isShoot = true;
 		direction = rand() % 4 + 0;

@@ -9,7 +9,7 @@ class Bullet :public Entity
 public:
 	int direction;
 
-	Bullet(Image& image, AnimationManager &A, String Name, Level& lvl, float X, float Y, int W, int H, int dir) :Entity(image, A, Name, X, Y, W, H) {
+	Bullet(/*Image& image,*/ AnimationManager &A, String Name, Level& lvl, float X, float Y, int W, int H, int dir) :Entity(/*image,*/ A, Name, X, Y, W, H) {
 		obj = lvl.GetObjects("solid");
 		x = X;
 		y = Y;

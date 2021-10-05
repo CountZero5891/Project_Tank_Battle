@@ -12,7 +12,7 @@ public:
 	int playerScore, health;//очки здоровья и счет убитых
 	std::map<std::string, bool> key;
 	//bool isShoot;
-	Player(Image& image, AnimationManager& A, String Name, Level& lev, float X, float Y, int W, int H, int Dir) :Entity(image,A, Name, X, Y, W, H) {
+	Player(/*Image& image,*/ AnimationManager& A, String Name, Level& lev, float X, float Y, int W, int H, int Dir) :Entity(/*image,*/ A, Name, X, Y, W, H) {
 	
 		health = 100, life = true, playerScore = 0;
 		STATE = stay;
@@ -133,10 +133,10 @@ public:
 			}
 		}
 
-		//if (key["Space"])
-		//{
-		//	shoot = true;
-		//}
+		if (key["Space"])
+		{
+			isShoot = true;
+		}
 
 		/////////////////////если клавиша отпущена///////////////////////////
 		if (!(key["L"] || key["R"]))
@@ -157,10 +157,10 @@ public:
 		}
 
 		
-		/*if (!key["Space"])
+		if (!key["Space"])
 		{
-			shoot = false;
-		}*/
+			isShoot = false;
+		}
 
 		key["R"] = key["L"] = key["Up"] = key["Down"] = key["Space"] = false;
 

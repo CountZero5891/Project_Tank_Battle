@@ -243,25 +243,32 @@ void exec_v3()
 	window.setFramerateLimit(30);
 	view.reset(FloatRect(50, 50, 1920, 1080));
 	Level lvl;
-	lvl.LoadFromFile("map02.tmx");
+	lvl.LoadFromFile("new_map.tmx");
 	
 	Object playerObject = lvl.GetObject("Player");
 
 	Image heroImage;
 	heroImage.loadFromFile("images/tanks.png");
+	Image bulletImage;
+	bulletImage.loadFromFile("images/bullet.png");
+	bulletImage.createMaskFromColor(Color(0, 0, 0));
 
 	Image enemyImage;
 	enemyImage.loadFromFile("images/tanks.png");
 
 	//Initializing player//
 	Texture player_texture;
+	Texture player_bullet;
 	player_texture.loadFromFile("images/tanks.png");
-	AnimationManager playerAnim;
+	player_bullet.loadFromFile("images/bullet.png");
+	AnimationManager playerAnim;//
+	AnimationManager plrbltAnim;//player bullet anim
+	plrbltAnim.create("bullet_move", player_bullet, 0, 0, 16, 16, 1, 0);
 	playerAnim.create("up", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 0);
 	playerAnim.create("down", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 180);
 	playerAnim.create("left", player_texture, 0, 85, 75, 82, 8, 0.005, 90, -90);
 	playerAnim.create("right", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 90);
-	Player player(heroImage, playerAnim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
+	Player player(playerAnim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
 	////////////////////////////////////////////////////////////////////////////
 	
 
@@ -279,7 +286,7 @@ void exec_v3()
 	list<Entity*>::iterator entity_it2;
 	for (int i = 0; i < enemiesObjects.size(); i++)
 	{
-		entities.push_back(new Enemy(enemyImage, enemyAnim, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
+		entities.push_back(new Enemy(enemyAnim, "Enemy", lvl, enemiesObjects[i].rect.left, enemiesObjects[i].rect.top, 71, 80, 1));
 	}
 
 	/////////////////////////////
@@ -298,7 +305,7 @@ void exec_v3()
 			if (player.isShoot == true)
 			{
 				player.isShoot = false;
-
+				entities.push_back(new Bullet(plrbltAnim, "Bullet", lvl, player.x, player.y, 16, 16, player.STATE));
 			}
 
 			if (event.type == Event::KeyPressed)
@@ -415,7 +422,7 @@ void exec_v2()
 			if (player.isShoot == true)
 			{
 				player.isShoot = false;
-				//bullets.push_back(new Bullet(bulletImage, "Bullet", lvl, player.x, player.y, 16, 16, player.state));
+				bullets.push_back(new Bullet(bulletImage, "Bullet", lvl, player.x, player.y, 16, 16, player.STATE));
 
 			}
 
