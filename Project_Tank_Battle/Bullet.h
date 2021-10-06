@@ -15,7 +15,8 @@ public:
 		y = Y;
 		direction = dir;
 		speed = 0.8;
-		w = h = 16;
+		w = W;
+		h =	H;
 		life = true;
 	};
 
@@ -38,10 +39,10 @@ public:
 			dx = 0; 
 			dy = speed;
 			break;
-		case 4:
+		/*case 4:
 			dx = 0;
 			dy = -speed;
-			break;
+			break;*/
 		}
 
 

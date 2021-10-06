@@ -19,8 +19,9 @@ public:
 		obj = lev.GetAllObjects();// инициализируем все объекты на карте чтобы проверить на пересечение игрока с ними
 		if (name == "Player")
 		{
-			RectangleShape rectangle(Vector2f(w, h));
+			/*RectangleShape rectangle(Vector2f(w, h));
 			rectangle.setPosition(x + w / 2, y + h / 2);
+			*/
 			sprite.setTextureRect(IntRect(0, 85, w, h));
 			sprite.setOrigin(w / 2.f, h / 2.f);
 		}
@@ -97,40 +98,44 @@ public:
 			if (STATE != duck) */
 			dx = -0.1;
 			dy = 0;
-			if (STATE == stay)
+			STATE = left;
+			/*if (STATE == stay)
 			{
 				STATE = left;
-			}
+			}*/
 		}
 
 		if (key["R"])
 		{
 			dx = 0.1;
 			dy = 0;
-			if (STATE == stay) 
+			STATE = right;
+			/*if (STATE == stay) 
 			{
 				STATE = right;
-			}
+			}*/
 		}
 
 		if (key["Up"])
 		{ 
 			dy = -0.1; 
 			dx = 0;
-			if (STATE == stay)
+			STATE = up;
+			/*if (STATE == stay)
 			{
 				STATE = up;
-			}
+			}*/
 		}
 
 		if (key["Down"])
 		{
 			dy = 0.1;
 			dx = 0;
-			if (STATE == stay)
+			STATE = down;
+			/*if (STATE == stay)
 			{
 				STATE = down;
-			}
+			}*/
 		}
 
 		if (key["Space"])
@@ -144,7 +149,7 @@ public:
 			dx = 0;
 			/*cout << dx << endl;*/
 			//cout << "Key left un push, STATE: "<<STATE << endl;
-			if (STATE == left || STATE == right) STATE = stay;
+			if (STATE == left || STATE == right) /*STATE = stay;*/anim.pause();
 			//if (STATE == right) STATE = stay;
 		}
 
@@ -153,7 +158,7 @@ public:
 		if (!(key["Up"] || key["Down"]))
 		{
 			dy = 0;
-			if (STATE == up || STATE == down) STATE = stay;
+			if (STATE == up || STATE == down) /*STATE = stay;*/anim.pause();
 		}
 
 		
@@ -239,23 +244,23 @@ public:
 			sprite.setRotation(-90);
 			anim.set("left"); 
 			anim.pause(); 
-			cout << dx << endl;
+			//cout << dx << endl;
 			if (dx != 0) 
 			{ 
 				anim.play(); 
 			} 
-			cout << w << endl; cout << h << endl;
+			//cout << w << endl; cout << h << endl;
 		}
 		if (STATE == right) 
 		{ 
 			sprite.setRotation(90);
 			anim.set("right");
 			anim.pause(); 
-			cout << dx << endl;
+			//cout << dx << endl;
 			if (dx != 0) {
 				anim.play();
 			}
-			cout << w << endl; cout << h << endl;
+			//cout << w << endl; cout << h << endl;
 		}
 
 		anim.tick(time);

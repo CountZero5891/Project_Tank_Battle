@@ -80,10 +80,10 @@ public:
 		a.sprite.setOrigin(w / 2.f, h / 2.f);
 		a.sprite.setRotation(angle);
 		//a.sprite.setPosition(350, 150);
-		std::cout << angle << std::endl;
+		//std::cout << angle << std::endl;
 		sf::Vector2f position = a.sprite.getPosition();
-		std::cout << "Coordinates of sprite: " <<  position.x << " " << position.y << "\n";
-		std::cout << "Coordinates of sprite: " << position.x << " " << position.y << "\n";
+		//std::cout << "Coordinates of sprite: " <<  position.x << " " << position.y << "\n";
+		//std::cout << "Coordinates of sprite: " << position.x << " " << position.y << "\n";
 		for (int i = 0; i < count; i++)
 		{
 			a.frames.push_back(IntRect(x + i * step, y, w, h));

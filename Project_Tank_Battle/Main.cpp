@@ -305,7 +305,7 @@ void exec_v3()
 			if (player.isShoot == true)
 			{
 				player.isShoot = false;
-				entities.push_back(new Bullet(plrbltAnim, "Bullet", lvl, player.x, player.y, 16, 16, player.STATE));
+				entities.push_back(new Bullet(plrbltAnim, "Bullet", lvl, (player.x + player.w / 2), (player.y + player.h / 2), 16, 16, player.STATE));
 			}
 
 			if (event.type == Event::KeyPressed)
@@ -319,7 +319,7 @@ void exec_v3()
 
 		float time = clock.getElapsedTime().asMicroseconds();
 		clock.restart();
-
+		//cout << player.STATE << endl;
 		time = time / 800;
 
 		player.update(time);
