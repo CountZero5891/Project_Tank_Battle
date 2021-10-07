@@ -76,14 +76,11 @@ public:
 		/*sprite.setTexture(texture);
 		sprite.setOrigin(w / 2, h / 2);*/
 		a.sprite.setTexture(texture);
-		a.sprite.setTextureRect(IntRect(0, 85, w, h));
+		a.sprite.setTextureRect(IntRect(x, y, w, h));
 		a.sprite.setOrigin(w / 2.f, h / 2.f);
 		a.sprite.setRotation(angle);
-		//a.sprite.setPosition(350, 150);
-		//std::cout << angle << std::endl;
+		
 		sf::Vector2f position = a.sprite.getPosition();
-		//std::cout << "Coordinates of sprite: " <<  position.x << " " << position.y << "\n";
-		//std::cout << "Coordinates of sprite: " << position.x << " " << position.y << "\n";
 		for (int i = 0; i < count; i++)
 		{
 			a.frames.push_back(IntRect(x + i * step, y, w, h));

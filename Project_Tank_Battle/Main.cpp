@@ -39,7 +39,7 @@ void update_enemies(list<Entity*> &enemies, list<Entity*>::iterator enemy_it, fl
 	}
 }
 
-void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, float& time, Player &player)
+void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, float& time, Player &player, Level &lvl/*, AnimationManager &anim*/ )
 {
 	for (entity_it = entities.begin(); entity_it != entities.end();)
 	{
@@ -53,16 +53,16 @@ void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, f
 
 	for (entity_it = entities.begin(); entity_it != entities.end(); entity_it++)
 	{
-		/*if ((*entity_it)->name == "Enemy")
+		if ((*entity_it)->name == "Enemy")
 		{
-			if ((*enemy_it)->isShoot == true)
+			if ((*entity_it)->isShoot == true)
 			{
-				(*enemy_it)->isShoot = false;
+				(*entity_it)->isShoot = false;
 
-				entities.push_back(new Bullet(bulletImage, "EnemyBullet", lvl, (*enemy_it)->x, (*enemy_it)->y, 16, 16, (*enemy_it)->direction));
+				entities.push_back(new Bullet((*entity_it)->anim, "EnemyBullet", lvl, (*entity_it)->x, (*entity_it)->y, 16, 16, 1/*(*entity_it)->direction*/));
 
 			}
-		}*/
+		}
 		
 
 		if ((*entity_it)->getRect().intersects(player.getRect()))
@@ -113,6 +113,53 @@ void entity_update(list<Entity*>& entities, list<Entity*>::iterator entity_it, f
 			
 		}
 	}
+	for (list<Entity*>::iterator entity_it = entities.begin(); entity_it != entities.end(); entity_it++)
+	{
+		if ((*entity_it)->name == "Enemy")
+		{
+			Entity* enemy = *entity_it;
+			for (list<Entity*>::iterator b_it = entities.begin(); b_it != entities.end(); b_it++)
+			{
+				Entity* bullet = *b_it;
+				if (bullet->name == "Bullet")
+				{
+					if (bullet->life == true)
+					{
+						if (bullet->getRect().intersects(enemy->getRect()))
+						{
+							bullet->life = false;
+							enemy->health -= 50;
+							if (enemy->health == 0)
+							{
+								enemy->life = false;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	for (list<Entity*>::iterator b_it2 = entities.begin(); b_it2 != entities.end(); b_it2++)
+	{
+		Entity* bullet = *b_it2;
+		if (bullet->name == "EnemyBullet")
+		{
+			if (bullet->life == true)
+			{
+				if (bullet->getRect().intersects(player.getRect()))
+				{
+					bullet->life = false;
+					player.health -= 40;
+					if (player.health == 0)
+					{
+						player.life = false;
+					}
+				}
+			}
+		}
+	}
+
 
 }
 
@@ -243,7 +290,7 @@ void exec_v3()
 	window.setFramerateLimit(30);
 	view.reset(FloatRect(50, 50, 1920, 1080));
 	Level lvl;
-	lvl.LoadFromFile("new_map.tmx");
+	lvl.LoadFromFile("map02.tmx");
 	
 	Object playerObject = lvl.GetObject("Player");
 
@@ -259,11 +306,12 @@ void exec_v3()
 	//Initializing player//
 	Texture player_texture;
 	Texture player_bullet;
+
 	player_texture.loadFromFile("images/tanks.png");
-	player_bullet.loadFromFile("images/bullet.png");
+	player_bullet.loadFromFile("images/tanks.png");
 	AnimationManager playerAnim;//
 	AnimationManager plrbltAnim;//player bullet anim
-	plrbltAnim.create("bullet_move", player_bullet, 0, 0, 16, 16, 1, 0);
+	plrbltAnim.create("bullet_move", player_bullet, 360, 200, 19, 19, 1, 0);
 	playerAnim.create("up", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 0);
 	playerAnim.create("down", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 180);
 	playerAnim.create("left", player_texture, 0, 85, 75, 82, 8, 0.005, 90, -90);
@@ -280,6 +328,7 @@ void exec_v3()
 	enemyAnim.create("enemy_down", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 180);
 	enemyAnim.create("enemy_left", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, -90);
 	enemyAnim.create("enemy_right", enemy_texture, 0, 1, 75, 82, 8, 0.005, 90, 90);
+	
 	vector<Object> enemiesObjects = lvl.GetObjects("Enemy");
 	list<Entity*> entities;
 	list<Entity*>::iterator enityy_it;
@@ -305,7 +354,7 @@ void exec_v3()
 			if (player.isShoot == true)
 			{
 				player.isShoot = false;
-				entities.push_back(new Bullet(plrbltAnim, "Bullet", lvl, (player.x + player.w / 2), (player.y + player.h / 2), 16, 16, player.STATE));
+				entities.push_back(new Bullet(plrbltAnim, "Bullet", lvl, (player.x + player.w / 3), (player.y + player.h / 3), 19, 19, player.STATE));
 			}
 
 			if (event.type == Event::KeyPressed)
@@ -323,7 +372,7 @@ void exec_v3()
 		time = time / 800;
 
 		player.update(time);
-		entity_update(entities, enityy_it, time, player);
+		entity_update(entities, enityy_it, time, player, lvl);
 
 
 		window.setView(view);
@@ -333,6 +382,7 @@ void exec_v3()
 
 		//window.draw(player.sprite);
 		player.draw(window);
+		plrbltAnim.draw(window, 150, 150);
 		for (enityy_it = entities.begin(); enityy_it != entities.end(); enityy_it++)
 		{
 			(*enityy_it)->draw(window);
