@@ -316,7 +316,7 @@ void exec_v3()
 	playerAnim.create("down", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 180);
 	playerAnim.create("left", player_texture, 0, 85, 75, 82, 8, 0.005, 90, -90);
 	playerAnim.create("right", player_texture, 0, 85, 75, 82, 8, 0.005, 90, 90);
-	Player player(playerAnim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 1);
+	Player player(playerAnim, "Player", lvl, playerObject.rect.left, playerObject.rect.top, 75, 82, 2);
 	////////////////////////////////////////////////////////////////////////////
 	
 
